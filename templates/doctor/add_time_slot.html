@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+{% load widget_tweaks %}
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add Time Slots</title>
+  </head>
+  <body>
+    <h1>Create time slots here</h1>
+    <h3>{{ request.user }}</h3>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% if time_slot_form.errors %}
+    {% for field in time_slot_form %}
+        {% for error in field.errors %}
+            <div class="alert alert-danger">
+                <strong>{{ error|escape }}</strong>
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+    {% for error in time_slot_form.non_field_errors %}
+        <div class="alert alert-danger">
+            <strong>{{ error|escape }}</strong>
+        </div>
+    {% endfor %}
+
+    {% endif %}
+    <form method="post">
+      {% csrf_token %}
+      <div>
+        {% render_field time_slot_form.day class="form-control" placeholder="Day" %}
+      </div>
+      <div>
+        {% render_field time_slot_form.start_time class="form-control" placeholder="Start Time" %}
+      </div>
+      <div>
+        {% render_field time_slot_form.end_time class="form-control" placeholder="End Time" %}
+      </div>
+      <div>
+        {% render_field time_slot_form.half_time class="form-control" placeholder="Half time" %}
+      </div>
+      <div>
+          <input type="submit" value="Add Time Slot">
+      </div>
+    </form>
+  </body>
+</html>

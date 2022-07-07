@@ -1,0 +1,231 @@
+{% extends "base/client/base.html" %}
+{% load static %} 
+{% load widget_tweaks %}
+{% block head %}
+<style>
+    .input-div + .input-div {
+        margin-top: 16px;
+    }
+      .flex{
+          /* margin-left:-8px ; */
+        display: flex;
+        flex-wrap: wrap;
+        /* justify-content: space-between; */
+        align-items: center;
+      }
+      .flex + .flex {
+          margin-top: 1rem;
+      }
+      .container{
+          /* padding: 1rem; */
+      }
+      
+      .center-div{
+        margin: 0 auto !important;
+        /* width: 500px; */
+        max-width: 700px;
+      }
+
+      .appointment-details-container{
+          padding: 4em 0;
+        margin: 1rem auto;
+        border-radius: 8px;
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+      }
+      .appointment-details-container table{
+          width: 100%;
+          /* background-color: beige; */
+    border-radius: 8px;
+      }
+      .appointment-details-container tr{
+        display: flex;
+    justify-content: space-between;
+    /* border-bottom: 1px solid gainsboro; */
+      }
+      .appointment-details-container tr:not(:last-child) {
+    border-bottom: 1px solid gainsboro;
+}
+      .appointment-details-container td{
+        padding: 1rem;
+        flex-basis: 50%;
+      }
+      .summary-title{
+        font-size: 1.5rem;
+        font-weight: bold;
+        /* flex-basis: 50%; */
+        background-color: beige;
+        color: black;
+        /* padding: 1rem; */
+        /* border-radius: 4px; */
+        width: fit-content;
+    border-radius: 0 48px 48px 0;
+    padding: 1rem 2rem;
+      }
+      .summary-title-td,.summary-text-td{
+        flex-basis: 45%;
+      }
+      .summary-title-td{
+        text-align: center;
+      }
+      
+      .summary-arrow-td{
+        flex-basis: 10% !important;
+        padding: 2rem !important;
+        color:grey;
+        font-size: 2rem !important;
+      }
+      .summary-text{
+          font-size: large;
+        /* flex-basis: 50%; */
+        padding: 1rem;
+      }
+      .button{
+          background-color: #1da1f2;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 1rem 6rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+      }
+      .button:hover{
+          background-color: #325c76;
+            color: white;
+      }
+</style>
+{% endblock %}
+{% block content %}
+<div class="container appointment-details-container">
+    <div class="row center-div">
+        <form id="" role="form" method="post">
+            {% csrf_token %} 
+            <!-- SECTION TITLE -->
+            <div class="section-title wow fadeInUp" data-wow-delay="0.4s">
+                 <h2>Appointment Details </h2>
+                 
+            </div>
+
+            <div class="wow fadeInUp" data-wow-delay="0.8s">
+        
+                 <div class="row flex">
+                    <div class="col-md-12 col-sm-12 input-div">
+                        <p>Here are your appointment details </p>
+                 
+                 <table>
+                    <tr>
+                        <td class="summary-title-td">
+                            <p class="summary-title">Patient Name:</p>
+                        </td>
+                        <td class="summary-arrow-td">➩</td>
+                        <td class="summary-text-td">
+                            <p class="summary-text">{{ appointment.patient.patientprofile.first_name }} {{ appointment.patient.patientprofile.middle_name }} {{ appointment.patient.patientprofile.last_name }}</p>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="summary-title-td">
+                                <p class="summary-title">Appointment Date:</p>
+                            </td>
+                            <td class="summary-arrow-td">➩</td>
+                            <td class="summary-text-td">
+                                <p class="summary-text">{{ appointment.daily_slot_booking.date }}</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="summary-title-td">
+                                <p class="summary-title">Appointment Time:</p>
+                            </td>
+                            <td class="summary-arrow-td">➩</td>
+                            <td class="summary-text-td">
+                                <p class="summary-text">{{ appointment.daily_slot_booking.doctor_time_slot.time_slot.get_time_slot_with_day }}</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="summary-title-td">
+                                <p class="summary-title">Appointment Reason:</p>
+                            </td>
+                            <td class="summary-arrow-td">➩</td>
+                            <td class="summary-text-td">
+                                <p class="summary-text">{{ appointment.message }}</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="summary-title-td">
+                                <p class="summary-title">Doctor Name:</p>
+                            </td>
+                            <td class="summary-arrow-td">➩</td>
+                            <td class="summary-text-td">
+                                <p class="summary-text">{{ appointment.daily_slot_booking.doctor_time_slot.doctor.doctor.first_name }} {{ appointment.daily_slot_booking.doctor_time_slot.doctor.doctor.last_name }} </p>
+                            </td>
+                        </tr>
+                        {% if appointment.status == 'COMPLETED' %}
+                        <tr>
+                            <td class="summary-title-td">
+                                <p class="summary-title">Status :</p>
+                            </td>
+                            <td class="summary-arrow-td">➩</td>
+                            <td class="summary-text-td">
+                                <p class="summary-text"> Completed </p>
+                            </td>
+                        </tr>
+                        {% elif appointment.status == 'CANCELLED' %}
+                        <tr>
+                            <td class="summary-title-td">
+                                <p class="summary-title">Status :</p>
+                            </td>
+                            <td class="summary-arrow-td">➩</td>
+                            <td class="summary-text-td">
+                                <p class="summary-text"> Cancelled </p>
+                            </td>
+                        </tr>
+                        {% elif appointment.status == 'PENDING' %}
+                        <tr>
+                            <td class="summary-title-td">
+                                <p class="summary-title">Status :</p>
+                            </td>
+                            <td class="summary-arrow-td">➩</td>
+                            <td class="summary-text-td">
+                                <p class="summary-text"> Pending </p>
+                            </td>
+                        </tr>
+                        {% endif %}
+
+                        {% if appointment.status == 'COMPLETED' %}
+                        <tr>
+                            <td class="summary-title-td">
+                                <p class="summary-title">Prescription :</p>
+                            </td>
+                            <td class="summary-arrow-td">➩</td>
+                            <td class="summary-text-td">
+                                <p class="summary-text"> {{ prescription.content }} </p>
+                            </td>
+                        </tr>
+                        {% endif %}
+                        {% if appointment.status == 'COMPLETED' %}
+                        <tr>
+                            <td class="summary-title-td">
+                                <p class="summary-title"> Bill amount :</p>
+                            </td>
+                            <td class="summary-arrow-td">➩</td>
+                            <td class="summary-text-td">
+                                <p class="summary-text">&#8377 {{ invoice.total_amount }} </p>
+                            </td>
+                        </tr>
+                        {% endif %}
+
+                 </table>
+                   </div>      
+                 </div>           
+                <div class="row flex">
+                    <div class="col-md-12 col-sm-12 input-div">
+                      <p>Want to see your appointment history ? <strong>
+                    <a href="{% url 'patient:appointment-history' %}">
+                        Click here
+                    </a>      
+                    </strong></p>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

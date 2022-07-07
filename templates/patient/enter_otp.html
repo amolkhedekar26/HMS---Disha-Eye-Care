@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Enter OTP</title>
+  </head>
+  <body>
+    <h1>Enter OTP sent to your mobile number</h1>
+    <form action="{% url 'patient:verify-otp' %}" method="post">
+      {% csrf_token %}
+      <!-- <input type="hidden" value="{{ request.session.phone_no }}" name="input-phone-no" id="input-phone-no"> -->
+      <input
+        type="text"
+        class="form-input"
+        id="input-otp"
+        name="input-otp"
+        pattern="[0-9]{6}"
+        required
+      />
+      <input
+        type="submit"
+        class="btn-submit"
+        id="submit-otp"
+        name="submit-otp"
+        value="Verify OTP"
+      />
+    </form>
+  </body>
+</html>

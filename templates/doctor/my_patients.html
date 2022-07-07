@@ -1,0 +1,214 @@
+{% extends "base/doctor/base.html" %}
+{% load static %} 
+ 
+ {% block head %}
+ <title>My Patients</title>
+<style>
+    .my-patients-container{
+        /* margin-top: 1rem; */
+        max-width: min(90%,75%);
+        margin: 0 auto;
+      }
+      .table{
+        margin-top: 2rem;
+      }
+      th,td{
+        padding: 1rem !important;
+        text-align: center;
+        vertical-align: middle;
+  
+      }
+      /* .bx{
+        font-size: 1.2rem;
+      } */
+      .pagination{
+        justify-content: center;
+      }
+      .pagination li{
+        display: inline-block;
+        margin: 0.5rem;
+        padding:0.5rem 1rem;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+      }
+      .pagination li:hover{
+        background-color: #ccc;
+      }
+      .pagination .active{
+        background-color: #4E944F;
+        color: white;
+      }
+      .list-container{
+        display: flex;
+        justify-content: space-between;
+      }
+      tbody, td, tfoot, th, thead, tr {
+        border-color: inherit;
+        border-style: none !important;
+        border-width: 0;
+      }
+      tr{
+          border-radius: 16px !important;
+      }
+</style>
+ {% endblock %}
+
+ {% block sidebar %}
+   {% with page_title="My Patients" %}
+      <p class="hide">{{ block.super }}</p>
+    {% endwith %}
+ {% endblock %}
+ 
+ {% block content %}
+ <div class="my-patients-container">
+  {% if messages %}
+  {% for message in messages %}
+      {% if message.tags == 'success'%}
+          <!-- <script>Toastify({
+              text: "{{ message }}",
+              className: "info",
+              style: {
+                background: "linear-gradient(to right, #00b09b, #96c93d)",
+              }
+            }).showToast();</script> -->
+            <div class="alert alert-success" role="alert">
+              {{ message }}
+              <script>
+                 
+                 setTimeout(function(){    
+                  document.querySelector('.alert').style.opacity = 0; 
+                  document.querySelector('.alert').style.display = 'none';
+                 }, 3000);
+              </script>
+            </div>
+      {% endif %}
+  {% endfor %}
+{% endif %}
+ <!-- <form id="my-appointments-form">
+  <div class="mb-3">
+    <label for="input-day" class="form-label">Select Day</label>
+    <div class="row">
+      {% for choice in get_time_slots_form.days.field.choices %}
+    <div class="radio-time-slot">
+        <input
+        type="radio"
+        id="id_radio_time_slot_{{ forloop.counter }}"
+        name="days"
+        value="{{ choice.0 }}"
+        required
+        {% if choice.0 == get_time_slots_form.days.field.initial %}
+          checked
+        {% endif %}
+        />
+        <label class="btn btn-default" for="id_radio_time_slot_{{ forloop.counter }}">
+            <p>
+                {{ choice.1 }}
+            </p>
+        </label>
+        </div>
+  {% endfor %}
+  </div>
+    </div>
+  <button type="submit" class="btn btn-primary">Get Time Slots</button>
+</form> -->
+<div class="list-container">
+  <!-- <h4 class=""> <strong>{{ selected_day }}</strong> </h4> -->
+<!--   
+  <a href="{% url 'doctor:add-time-slot' %}" class="btn btn-primary">
+    <i class='bx bx-plus'></i>
+    Add Time Slot
+    </a> -->
+</div>
+<table class="table table-striped table-hover">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Name</th>
+        <th scope="col">Address</th>
+      <th scope="col">Age</th>
+      <th scope="col">Phone No</th>
+      <th scope="col">Gender</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for patient in patients %}
+    <tr>
+      <th scope="row">{{ forloop.counter }}</th>
+      <td> {{ patient.patientprofile.first_name }} {{ patient.patientprofile.last_name }} </td>
+        <td> {{ patient.patientprofile.address }} </td>
+      <td> {{ patient.patientprofile.age }}  </td>
+      <td> {{ patient.phone_no }} </td>
+      <td>
+        {{ patient.patientprofile.gender }}
+        </td>
+      <td>
+        <a href="{% url 'doctor:patient-details' patient.pk %}" class="btn btn-primary">
+          View
+        </a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% if patients.has_other_pages %} 
+    <ul class="pagination">
+      {% if patients.has_previous %}
+        <li><a href="?page={{ patients.previous_page_number }}">&laquo;</a></li>
+      {% else %}
+        <li class="disabled"><span>&laquo;</span></li>
+      {% endif %}
+      {% for i in patients.paginator.page_range %}
+        {% if patients.number == i %}
+          <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+        {% else %}
+          <li><a href="?page={{ i }}">{{ i }}</a></li>
+        {% endif %}
+      {% endfor %}
+      {% if patients.has_next %}
+        <li><a href="?page={{ patients.next_page_number }}">&raquo;</a></li>
+      {% else %}
+        <li class="disabled"><span>&raquo;</span></li>
+      {% endif %}
+    </ul>
+ {% endif %}
+<!-- <nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-center">
+    {% if doctor_time_slots.has_previous %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ doctor_time_slots.previous_page_number }}">Previous</a>
+      </li>
+    {% else %}
+      <li class="page-item disabled">
+        <a class="page-link" href="#" tabindex="-1" aria-disabled="True">Previous</a>
+      </li>
+    {% endif %}
+    {% for i in doctor_time_slots.paginator.page_range %}
+      {% if doctor_time_slots.number == i %}
+        <li class="page-item active" aria-current="page">
+          <span class="page-link">
+            {{ i }}
+            <span class="sr-only">(current)</span>
+          </span>
+        </li>
+      {% else %}
+        <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if doctor_time_slots.has_next %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ doctor_time_slots.next_page_number }}">Next</a>
+      </li>
+    {% else %}
+      <li class="page-item disabled">
+        <a class="page-link" href="#" tabindex="-1" aria-disabled="True">Next</a>
+      </li>
+    {% endif %}
+  </ul>
+</nav> -->
+</div>
+  {% endblock %}
+  
+  {% block script %}
+  
+  {% endblock %}

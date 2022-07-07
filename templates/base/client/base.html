@@ -1,0 +1,58 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css"> -->
+    <title>Disha Eye Care</title>
+
+    <!-- CSS STYLING -->
+    <link rel="stylesheet" href="{% static 'css/base/css/bootstrap.min.css' %}" />
+    <link
+    rel="stylesheet"
+    href="{% static 'css/base/css/font-awesome.min.css' %}"
+    />
+    <link rel="stylesheet" href="{% static 'css/base/css/animate.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/base/css/owl.carousel.css' %}" />
+    <link
+    rel="stylesheet"
+    href="{% static 'css/base/css/owl.theme.default.min.css' %}"
+    />
+
+    <!-- MAIN CSS -->
+    <link rel="stylesheet" href="{% static 'css/base/css/tooplate-style.css' %}" />
+
+    {% block head %}
+    {% endblock %}
+</head>
+<body id="top" data-spy="scroll" data-target=".navbar-collapse" data-offset="50">
+    <!-- PRE LOADER -->
+    <section class="preloader">
+        <div class="spinner">
+            <span class="spinner-rotate"></span>
+        </div>
+    </section>
+  
+    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script> -->
+    <!-- HEADER and MENU-->
+    {% include "clinic/navbar.html" %}
+    {% block content %}
+    {% endblock %}
+    <!-- FOOTER -->
+    {% include "clinic/footer.html" %}
+    <!-- SCRIPTS -->
+    <!-- SCRIPTS -->
+    <script src="{% static 'js/base/js/jquery.js' %}"></script>
+    <script src="{% static 'js/base/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/base/js/jquery.sticky.js' %}"></script>
+    <script src="{% static 'js/base/js/jquery.stellar.min.js' %}"></script>
+    <script src="{% static 'js/base/js/wow.min.js' %}"></script>
+    <script src="{% static 'js/base/js/smoothscroll.js' %}"></script>
+    <script src="{% static 'js/base/js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'js/base/js/custom.js' %}"></script>
+</body>
+</html>

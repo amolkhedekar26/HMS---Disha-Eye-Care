@@ -1,0 +1,112 @@
+{% extends "base/doctor/base.html" %}
+{% load static %} 
+
+ 
+ {% block head %}
+ <title>Doctor</title>
+<style>
+  .dashboard-container {
+    max-width: 90%;
+        margin: 0 auto;
+       min-height: 80vh;
+       padding: 1rem 2rem;
+        /* box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px; */
+  }
+  .dashboard-container .col-sm{
+    transition: 0.3s;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+  }
+  .col-sm + .col-sm{
+    margin-left: 2rem;
+  }
+  .col-sm:hover{
+    /* background-color: #b3d3f3e3; */
+  }
+  .patients-col{
+    /* background-color: #E8F9FD; */
+  }
+  .appointmets-col{
+    /* background-color: #FDEBF7; */
+    background-color: #4D96FF;
+  }
+  .available-slots-col{
+    /* background-color: #FFE4C0; */
+    background-color: #2EB086;
+  }
+  .card{
+    background-color: transparent;
+    border: none;
+    padding: 1rem;
+  }
+  .dashboard-container .bx{
+    /* color: #f4f7f9; */
+    font-size: 3rem;
+  }
+  .dashboard-container .card-title{
+    /* color: #f4f7f9; */
+    font-size: 6rem;
+  }
+  .dashboard-container .completed-appointmets-col{
+    background-color: #2EB086;
+  }
+  .dashboard-container .pedning-appointments-col{
+    background-color: #FDD7AA;
+  } 
+</style>
+ {% endblock %}
+
+ {% block sidebar %}
+   {% with page_title="Dashboard" %}
+      <p class="hide">{{ block.super }}</p>
+    {% endwith %}
+ {% endblock %}
+ 
+ {% block content %}
+ <div class="dashboard-container">
+   <h2>Today</h2>
+   <div class="row">
+    <div class="col-sm completed-appointmets-col">
+      <div class="card text-light">
+        <div style="display: flex;align-items: center;">
+          <i class='bx bxs-calendar-check'></i>
+          <h5 style="margin-left: 2rem;"> <span style="font-size: 2rem;margin-bottom: 1rem;">Completed</span>  Appointments</h5>
+        </div>
+        <div class="card-body">
+          <h5 class="card-title text-center">10</h5>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm pedning-appointments-col">
+      <div class="card text-dark">
+        <div style="display: flex;align-items: center;">
+          <i class='bx bxs-calendar-event'></i>
+          <h5 style="margin-left: 2rem;"> <span style="font-size: 2rem;margin-bottom: 1rem;">Pending</span>  Appointments</h5>
+        </div>
+        <div class="card-body">
+          <h5 class="card-title text-center">5</h5>
+        </div>
+      </div>
+    </div>
+   </div>
+   <h2>Today</h2>
+   <div class="row">
+    
+    <div class="col-sm appointmets-col">
+      One of three columns
+    </div>
+    <div class="col-sm available-slots-col">
+      One of three columns
+    </div>
+    <div class="col-sm patients-col">
+      One of three columns
+    </div>
+   </div>
+   </div>
+   </div>
+   
+  {% endblock %}
+  
+  {% block script %}
+  {% endblock %}

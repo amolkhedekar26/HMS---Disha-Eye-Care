@@ -1,0 +1,305 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Check Slot Avaialbility</title>
+    <style>
+
+      .button {
+        margin:8px;
+        width: fit-content;
+        /* height: 40px; */
+        position: relative;
+        
+      }
+
+      .button label,
+      .button input {
+        display: block;
+        border: 1px solid #ccc;
+        padding:1em 1em 1em 1em !important;
+        /* position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0; */
+      }
+
+      .button input[type="radio"] {
+        opacity: 0.011;
+        z-index: 100;
+      }
+
+      .button input[type="radio"]:checked + label {
+        background: #4E944F;
+        color: white;
+        border-radius: 4px;
+        padding:1em 1em 1em 1em;
+        font-weight: bold;
+      }
+
+      /* .button input[type="radio"]:checked + label::after {
+        display: inline-block;
+        content: "👍";
+        font-weight: bold;
+        font-size: 1.2rem;
+        padding: 0.3rem 0.5rem;
+        border-radius: 4px;
+        width: auto;
+        color: green;
+        background-color: rgb(255 255 255);
+      } */
+
+      .button label {
+        cursor: pointer;
+        z-index: 90;
+        /* line-height: 1.8em; */
+        padding: 0.1em 1em;
+        width: fit-content;
+        /* border: 1px solid #ccc; */
+      }
+      .col{
+        width: 100%;
+        display: flex;
+        /* flex-direction: column; */
+      }
+      input[type="submit"] {
+        background: #2064be;
+        border-radius: 4px;
+        color: #fff;
+        cursor: pointer;
+        font-size: 1.2em;
+        padding: 0.5em 1em;
+        width: fit-content;
+        outline: none;
+        border: none;
+      }
+      .slot-available{
+        /* background: #edf5f8f1; */
+        border-radius: 4px;
+        /* color: #fff; */
+        cursor: pointer;
+        /* font-size: 1.2em;
+        padding: 0.5em 1em;
+        width: fit-content; */
+        /* outline: none; */
+        border: 2px solid #4E944F;
+      }
+      .slot-booked{
+        background: rgba(204, 204, 204, 0.637);
+        border-radius: 4px;
+        /* color: #fff; */
+        pointer-events: none;
+        /* font-size: 1.2em;
+        padding: 0.5em 1em;
+        width: fit-content;
+        outline: none;
+        border: none; */
+      }
+      .slot-status{
+        /* background: rgb(207, 236, 241); */
+        border-radius: 4px;
+        /* color: #fff; */
+        cursor: none;
+        padding: 0.1em 0.5em;
+        font-size: 0.9rem;
+        font-weight: bold;
+        margin-left: 24px;
+        
+        /* font-size: 1.2em;
+        padding: 0.5em 1em;
+        width: fit-content;
+        outline: none;
+        border: none; */
+      }
+      .slot-status::before{
+        content: "";
+        display: inline-block;
+        width: 0;
+        height: 0;
+        border-top: 8px solid transparent;
+        border-bottom: 8px solid transparent;
+        border-left: 8px solid rgba(8, 98, 121, 0.562);
+        position: absolute;
+        /* top: -10px; */
+        left: 4px; 
+      }
+
+    
+
+    </style>
+  </head>
+  <body>
+    <form method="post">
+      {% csrf_token %} 
+      {{ choose_date_form.date }}
+      {% for choice in choose_date_form.doctor.field.choices %}
+    <!-- {{ choice.1 }} -->
+    <div class="button"> 
+      <input
+        type="radio"
+        id="id_radio_doctor_{{ forloop.counter }}"
+        name="doctor"
+        value="{{ choice.0 }}"
+      />
+      <label class="btn btn-default" for="id_radio_doctor_{{ forloop.counter }}">
+      <!-- <label class="btn btn-default slot-booked" for="id_radio_{{ forloop.counter }}"> -->
+        <p>
+          {{ choice.1 }}
+      </p>
+      
+      </label>
+      
+    </div>
+{% endfor %}
+      <input type="submit" value="Check Slot Availability" />
+    </form>
+    <div >
+      <form class="col" action="{% url 'patient:book-slot' %}" method="post">
+      {% csrf_token %}
+      <h3>Slot Availability</h3>
+      {% for slot in slots_available %}
+      <div class="button">
+        
+        <input
+          type="radio"
+          id="id_radio_{{ forloop.counter }}"
+          name="input_selected_slot"
+          value="{{ slot.id }}"
+          {% if slot.status == "BOOKED" %} disabled {% endif %}
+        />
+        <label class="btn btn-default {% if slot.status == 'AVAILABLE' %} slot-available {% elif slot.status == 'BOOKED' %} slot-booked{% endif %}" for="id_radio_{{ forloop.counter }}">
+        <!-- <label class="btn btn-default slot-booked" for="id_radio_{{ forloop.counter }}"> -->
+          <p>
+          {{ slot.doctor_time_slot.time_slot.start_time|time:"h:i A" }} - {{ slot.doctor_time_slot.time_slot.end_time|time:"h:i A"}}
+        </p>
+        
+        </label>
+        <!-- <p class="slot-status">
+          {{ slot.status }}
+        </p> -->
+        
+      </div>
+      {% endfor %}
+      <input type="submit" value="Book Slot" />
+    </form>
+    <!-- <img src="" alt="" id="img-doctor" width="500" height="500"> -->
+    
+    </div>
+    <!-- <form action="{% url 'patient:get-available-slots' %}" method="post" id="get-slots-form">
+      {% csrf_token %} {{ choose_date_form }}
+<section class="available-doctors-section" id="available-doctors-section"> -->
+<!-- <div>
+  <input type="radio" id="control_01" name="doctor-select" value="1" onchange="getSelectedDoctor(this)">
+  <label for="control_01">
+    <h2>Pfft</h2>
+    <p>Awww, poor baby. Too afraid of the scary game sprites? I laugh at you.</p>
+  </label>
+</div> -->
+<!-- </section> -->
+</form>
+    <!-- <script src="{% static 'js/base/js/jquery.js' %}"></script> -->
+    <!-- <script>
+      const picker = document.getElementById('id_date');
+picker.addEventListener('input', function(e){
+  $("#available-doctors-section").empty();
+  const selected_day=new Date(this.value);
+  $.ajax({
+    url: "{% url 'patient:get-doctors-for-day' %}",
+            method: 'GET',
+            data: {
+            selected_day:this.value 
+        },
+        success: function (data) {
+          if (data) {
+            console.log(JSON.parse(data));
+            const doctors = JSON.parse(data);
+            const availableDoctors=doctors.doctors;
+            console.log(availableDoctors);
+            // console.log(doctors['doctors'][0].profile_image);
+            
+            availableDoctors.forEach(doctor => {
+              const doctorCard=`
+                <div>
+                  <input type="radio" id="doctor-select-${doctor.id}" name="doctor-select" value="${doctor.id}" onchange="getSelectedDoctor(this)">
+                  <label for="doctor-select-${doctor.id}">
+                    <h2>${doctor.first_name} ${doctor.last_name}</h2>
+                    <p>${doctor.specialization}</p>
+                  </label>
+                </div>
+              `;
+              $('#available-doctors-section').append(doctorCard);
+            });
+
+            // loop through doctors
+            // for (let i = 0; i < doctors.length; i++) {
+            //   const doctor = doctors[i];
+            //   console.log(doctor);
+              // const doctorCard=`
+              //   <div>
+              //     <input type="radio" id="doctor-select-${i}" name="doctor-select" value="${doctor.id}">
+              //     <label for="doctor-select-${i}">
+              //       <h2>${doctor.first_name} ${doctor.last_name}</h2>
+              //       <p>${doctor.specialization}</p>
+              //     </label>
+              //   </div>
+              // `;
+              // $('#available-doctors-section').append(doctorCard);
+            // }
+            
+            
+            // $('#available-doctors-section').html('');
+            // const imgSrc=`{% static 'images/' %}${doctors['doctors'][0].profile_image}`;
+            // $('#img-doctor').attr('src',imgSrc);
+          }
+        }
+      });
+
+  var day = new Date(this.value).getUTCDay();
+  if([0].includes(day)){
+    e.preventDefault();
+    this.value = '';
+    alert('Sunday is off day');
+  }
+  
+  
+});
+
+// const doctorSelect=document.getElementsByName('doctor-select');
+// var prev = null;
+// for (var i = 0; i < doctorSelect.length; i++) {
+//   doctorSelect[i].addEventListener('change', function() {
+//         (prev) ? console.log(prev.value): null;
+//         if (this !== prev) {
+//             prev = this;
+//         }
+//         console.log(this.value)
+//     });
+// }
+function getSelectedDoctor(e){
+  console.log(e.value);
+  console.log(picker.value);
+  // $.ajax({
+  //   url: "{% url 'patient:get-available-slots' %}",
+  //           method: 'POST',
+  //           data: {
+  //           csrfmiddlewaretoken:'{{csrf_token}}',
+  //           selected_doctor:e.value,
+  //           selected_day:picker.value
+  //       },
+  //   success:function(data){
+  //     if (data){
+  //       console.log(JSON.parse(data));
+  //     }
+  //   }
+  // }
+    
+  // )
+    $("#get-slots-form").submit();
+}
+    </script> -->
+  </body>
+</html>

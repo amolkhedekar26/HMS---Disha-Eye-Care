@@ -1,0 +1,183 @@
+{% extends "base/doctor/base.html" %}
+{% load static %} 
+{% load widget_tweaks %}
+ 
+ {% block head %}
+ <title>Add Time Slots</title>
+ <style>
+  .add-time-slot-container{
+     max-width: min(90%,75%);
+     margin: 0 auto;
+  }
+  .alert{
+      opacity: 1;
+     transition: opacity 0.6s;
+  }
+  .action-div{
+      width: 100%;
+     display: flex;
+     
+     align-items: center;
+     /* margin-top: 1em; */
+  }
+  .action-div a{
+         margin-right: 1em;
+  }
+  .checkbox-days {
+        /* margin:8px; */
+        width: fit-content;
+        /* height: 40px; */
+        position: relative;
+        
+      }
+
+      .checkbox-days label,
+      .checkbox-days input {
+        display: block;
+        border: 1px solid #ccc;
+        /* padding:0 1em 1em 1em !important; */
+        /* position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0; */
+      }
+
+      .checkbox-days input[type="checkbox"] {
+        opacity: 0.011;
+        z-index: 100;
+      }
+
+      .checkbox-days input[type="checkbox"]:checked + label {
+        background: #4E944F;
+        color: white;
+        border-radius: 4px;
+        /* padding:1em 1em 1em 1em; */
+        font-weight: bold;
+      }
+      .checkbox-days input[type="checkbox"]:checked + label p{
+        font-weight: bold;
+      }
+      /* .checkbox-days input[type="radio"]:checked + label::after {
+        display: inline-block;
+        content: "👍";
+        font-weight: bold;
+        font-size: 1.2rem;
+        padding: 0.3rem 0.5rem;
+        border-radius: 4px;
+        width: auto;
+        color: green;
+        background-color: rgb(255 255 255);
+      } */
+
+      .checkbox-days label {
+        cursor: pointer;
+        z-index: 90;
+        /* line-height: 1.8em; */
+        padding: 0.1em 1em;
+        width: fit-content;
+        /* border: 1px solid #ccc; */
+      }
+      .checkbox-days label p{
+        /* font-weight: bold; */
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+      }
+</style>
+ {% endblock %}
+
+ {% block sidebar %}
+   {% with page_title="Add Time Slots" %}
+      <p class="hide">{{ block.super }}</p>
+    {% endwith %}
+ {% endblock %}
+ 
+  {% block content %}
+  <div class="add-time-slot-container">
+    {% if messages %}
+    {% for message in messages %}
+        {% if message.tags == 'success'%}
+            <!-- <script>Toastify({
+                text: "{{ message }}",
+                className: "info",
+                style: {
+                  background: "linear-gradient(to right, #00b09b, #96c93d)",
+                }
+              }).showToast();</script> -->
+              <div class="alert alert-success" role="alert">
+                {{ message }}
+                <script>
+                   
+                   setTimeout(function(){    
+                    document.querySelector('.alert').style.opacity = 0; 
+                    document.querySelector('.alert').style.display = 'none';
+                   }, 3000);
+                </script>
+              </div>
+        {% endif %}
+    {% endfor %}
+{% endif %}
+{% if add_time_slot_form.errors %}
+    {% for field in add_time_slot_form %}
+        {% for error in field.errors %}
+            <div class="alert alert-danger">
+                <strong>{{ error|escape }}</strong>
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+    {% for error in add_time_slot_form.non_field_errors %}
+        <div class="alert alert-danger">
+            <strong>{{ error|escape }}</strong>
+        </div>
+    {% endfor %}
+{% endif %}
+<form id="add-time-slot-form" method="post">
+    {% csrf_token %}
+    <div class="row justify-content-center">
+        <div class="col">
+            <label for="">
+                <strong>Select Days</strong>
+            </label>
+            <div class="row">
+              {% for choice in add_time_slot_form.days.field.choices %}
+            <div class="checkbox-days">
+                <input
+                type="checkbox"
+                id="id_radio_time_slot_{{ forloop.counter }}"
+                name="days"
+                value="{{ choice.0 }}"  
+                />
+                <label class="btn btn-default" for="id_radio_time_slot_{{ forloop.counter }}">
+                    <p>
+                        {{ choice.1 }}
+                    </p>
+                </label>
+                </div>
+          {% endfor %}
+          </div>
+        </div>
+      </div>
+    <div class="row justify-content-center mt-4">
+        <div class="col">
+            <label for="">
+                <strong>Start Time</strong>
+            </label>
+            {% render_field add_time_slot_form.start_time class="form-control mt-2" %}
+        </div>
+        <div class="col">
+            <label for="">
+                <strong>End Time</strong>
+            </label>
+            {% render_field add_time_slot_form.end_time class="form-control mt-2" %}
+        </div>
+      </div>
+    <div class="action-div mt-4">
+        <input class="btn btn-primary" type="submit" value="Add Time Slot">
+        
+    </div>
+</div>
+  {% endblock %}
+  
+  {% block script %}
+  {% endblock %}

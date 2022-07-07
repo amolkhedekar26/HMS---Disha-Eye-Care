@@ -1,0 +1,349 @@
+{% extends "base/client/base.html" %}
+{% load static %} 
+{% load widget_tweaks %}
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/patient/css/mc-calendar.min.css' %}" />
+
+<style>
+    .input-div + .input-div {
+        margin-top: 16px;
+    }
+
+    .radio-doctor {
+        margin:8px;
+        width: fit-content;
+        /* height: 40px; */
+        position: relative;
+        
+      }
+
+      .radio-doctor label,
+      .radio-doctor input {
+        display: block;
+        border: 1px solid #ccc;
+        padding:0 1em 1em 1em !important;
+        /* position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0; */
+      }
+
+      .radio-doctor input[type="radio"] {
+        opacity: 0.011;
+        z-index: 100;
+      }
+
+      .radio-doctor input[type="radio"]:checked + label {
+        background: #4E944F;
+        color: white;
+        border-radius: 4px;
+        padding:1em 1em 1em 1em;
+        font-weight: bold;
+      }
+      .radio-doctor input[type="radio"]:checked + label p{
+        font-weight: bold;
+      }
+      /* .radio-doctor input[type="radio"]:checked + label::after {
+        display: inline-block;
+        content: "👍";
+        font-weight: bold;
+        font-size: 1.2rem;
+        padding: 0.3rem 0.5rem;
+        border-radius: 4px;
+        width: auto;
+        color: green;
+        background-color: rgb(255 255 255);
+      } */
+
+      .radio-doctor label {
+        cursor: pointer;
+        z-index: 90;
+        /* line-height: 1.8em; */
+        padding: 0.1em 1em;
+        width: fit-content;
+        /* border: 1px solid #ccc; */
+      }
+      /* .col{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+      } */
+      /* input[type="submit"] {
+        background: #2064be;
+        border-radius: 4px;
+        color: #fff;
+        cursor: pointer;
+        font-size: 1.2em;
+        padding: 0.5em 1em;
+        width: fit-content;
+        outline: none;
+        border: none;
+      } */
+      .flex{
+          margin-left:-8px ;
+        display: flex;
+        flex-wrap: wrap;
+        /* justify-content: space-between; */
+        align-items: center;
+      }
+      .container{
+          /* padding: 1rem; */
+      }
+      .slot{
+        padding: 0 8px 8px 8px !important;
+      }
+      .slot-available{
+        /* background: #edf5f8f1; */
+        border-radius: 4px;
+        /* color: #fff; */
+        cursor: pointer;
+        /* font-size: 1.2em;
+        padding: 0.5em 1em;
+        width: fit-content; */
+        /* outline: none; */
+        border: 2px solid #4E944F;
+      }
+      .slot-booked{
+        /* background: rgba(204, 204, 204, 0.637); */
+        background-color: #f38f8f;
+        border-radius: 4px;
+        color: #fff;
+        pointer-events: none;
+        /* font-size: 1.2em;
+        padding: 0.5em 1em;
+        width: fit-content;
+        outline: none;
+        border: none; */
+      }
+      .slot-not-available{
+        background-color: #ffc10768;
+        border-radius: 4px;
+        color: black;
+        pointer-events: none;
+      }
+      .slot-status{
+        /* background: rgb(207, 236, 241); */
+        border-radius: 4px;
+        /* color: #fff; */
+        cursor: none;
+        padding: 0.1em 0.5em;
+        font-size: 0.9rem;
+        font-weight: bold;
+        margin-left: 24px;
+        
+        /* font-size: 1.2em;
+        padding: 0.5em 1em;
+        width: fit-content;
+        outline: none;
+        border: none; */
+      }
+      .slot-status::before{
+        content: "";
+        display: inline-block;
+        width: 0;
+        height: 0;
+        border-top: 8px solid transparent;
+        border-bottom: 8px solid transparent;
+        border-left: 8px solid rgba(8, 98, 121, 0.562);
+        position: absolute;
+        /* top: -10px; */
+        left: 4px; 
+      }
+      .center-div{
+        margin: 0 auto !important;
+        /* width: 500px; */
+        max-width: 700px;
+        margin-top: 1rem !important;
+      }
+
+      .check-available-slot-container{
+        margin: 1rem auto;
+        border-radius: 8px;
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+      }
+      .radio-doctor label p{
+        /* font-weight: bold; */
+        margin-top: 2rem;
+      }
+      .radio-doctor label h5{
+        font-weight: bold;
+        font-size: 1.5rem;
+      }
+      .radio-doctor-profile-image{
+        /* width: 50px;
+        height: 40px;
+        border-radius: 50%; */
+        /* margin-right: 8px; */
+        width: 150px;
+    border-radius: 0.5rem;
+    margin-top: 1rem;
+      }
+
+      .half-time-badge p{
+        width: fit-content;
+        /* background-color: #4e8c94; */
+        /* color: white; */
+        border-radius: 0 48px 48px 0;
+        /* padding: 0.5rem 2rem; */
+        margin-top: 1rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 1.5rem;
+        font-weight: bold;
+        text-decoration: underline;
+      }
+
+      .button{
+          background-color: #1da1f2;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 1rem 4rem;
+            font-size: 1.8rem;
+            cursor: pointer;
+      }
+      .button:hover{
+          background-color: #325c76;
+            color: white;
+      }
+
+      .input-div{
+        padding: 0;
+      }
+      .proceed-to-appointment-div{
+        margin-top: 1rem;
+        margin-bottom: 2rem;
+      }
+</style>
+{% endblock %}
+{% block content %}
+    <div class="container check-available-slot-container">
+        <div class="row center-div">
+            <form id="" role="form" method="post" action="#">
+                {% csrf_token %} 
+                <!-- SECTION TITLE -->
+                <div class="section-title wow fadeInUp" data-wow-delay="0.4s">
+                     <h2>Check Available Slot</h2>
+                </div>
+                <!-- <div class="col-md-12 col-sm-12 input-div">
+                  <p>Had some prevoius consultations with us ? <strong>
+                <a href="{% url 'patient:appointment-history-get-otp' %}">
+                    Click here
+                </a> </strong> to check your previous appointment history.</p>
+                </div> -->
+                <div class="wow fadeInUp" data-wow-delay="0.8s">
+                     <div class="col-md-6 col-sm-6 input-div">
+                          <label for="date">Select Date</label>
+                          {% render_field choose_date_form.date class="form-control" %}
+                     </div>
+    
+                     <div class="col-md-12 col-sm-12 input-div">
+                            <label for="">Select Doctor</label>
+                            <div class="row flex">
+                                    {% for choice in choose_date_form.doctor.field.choices %}
+                                    <div class="radio-doctor">
+                                        <input
+                                        type="radio"
+                                        id="id_radio_doctor_{{ forloop.counter }}"
+                                        name="doctor"
+                                        value="{{ choice.0 }}"
+                                        required
+                                        />
+                                        <label class="btn btn-default" for="id_radio_doctor_{{ forloop.counter }}">
+                                          {% for d in choose_date_form.doctor.field.queryset.all %}
+                                            {% if d.id == choice.0 %}
+                                            <img class="radio-doctor-profile-image" src="{{ d.profile_image.url }}" alt="" width="50"> 
+                                            
+                                            <h5>
+                                                {{ choice.1 }}
+                                            </h5>
+                                            <p>
+                                                {{ d.specialization }}
+                                            </p>
+                                            {% endif %}
+                                          {% endfor %}
+                                        </label>
+                                        </div>
+                                {% endfor %}
+                            </div>
+                     </div>
+                    <div class="col-md-6 col-sm-6 input-div">
+                        <input class="button" type="submit" value="Check Slot Availability" />
+                    </div>
+                </div>
+                
+            
+            </form>
+        </div>
+        <hr>
+        {% if slots_available %}
+            <div class="row center-div" id="check_available_slot_tab">
+                <form class="" action="{% url 'patient:book-slot' %}" method="post">
+                    {% csrf_token %}
+                    <h3>Slot Availability</h3>
+                    <div class="col">
+                        <label for="">Select a slot for appointment</label>
+                        {% for half_time in half_times %}
+                        <div class="mt-2 half-time-badge">
+                          <p>{{ half_time }}</p>
+                        </div>
+                        <div class="flex">
+                            {% for slot in slots_available %}
+                            {% if slot.doctor_time_slot.time_slot.half_time == half_time %}
+                        <div class="radio-doctor">
+                            <input
+                                type="radio"
+                                id="id_radio_{{ forloop.counter }}"
+                                name="input_selected_slot"
+                                value="{{ slot.id }}"
+                                {% if slot.status == "BOOKED" %} disabled {% endif %}
+                                required
+                            />
+                            <label class="btn btn-default slot {% if slot.status == 'AVAILABLE' %} slot-available {% elif slot.status == 'BOOKED' %} slot-booked {% elif slot.status == 'NOT-AVAILABLE' %} slot-not-available {% endif %}" for="id_radio_{{ forloop.counter }}">
+                            <!-- <label class="btn btn-default slot-booked" for="id_radio_{{ forloop.counter }}"> -->
+                                <!-- <h6>
+                                  {{ slot.doctor_time_slot.time_slot.half_time }}
+                                </h6> -->
+                                <p>
+                                {{ slot.doctor_time_slot.time_slot.start_time|time:"h:i A" }} - {{ slot.doctor_time_slot.time_slot.end_time|time:"h:i A"}}
+                            </p>
+                            </label>
+                        </div>
+                            {% endif %}
+                    {% endfor %}
+                        </div>
+                        {% endfor %}
+                </div>
+                <div class="col-md-6 col-sm-6 input-div proceed-to-appointment-div">
+                    <input class="button" type="submit" value="Proceed to book Appointment" />
+                </div>
+                </form>
+            </div>
+        {% else %}
+            <!-- <div class="row">
+                <h3>No slots available</h3>
+            </div> -->
+        {% endif %}
+    </div>
+    <script src="{% static 'css/patient/js/mc-calendar.min.js' %}"></script>
+    <script>
+        const datePicker = MCDatepicker.create({ 
+        el: '#id_date',
+        dateFormat: 'yyyy-MM-dd',
+        disableWeekDays: [0],
+        minDate:new Date("{{ choose_date_form.date.field.widget.attrs.min }}"),
+        maxDate:new Date("{{ choose_date_form.date.field.widget.attrs.max }}"),
+    })
+    </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script>
+      $(document).ready(function () {
+    // Handler for .ready() called.
+    $('html, body').animate({
+        scrollTop: $('#check_available_slot_tab').offset().top
+    }, 'slow');
+});
+    </script>
+{% endblock %}

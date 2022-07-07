@@ -1,0 +1,151 @@
+{% extends "base/client/base.html" %}
+{% load static %} 
+{% load widget_tweaks %}
+{% block head %}
+<style>
+    .input-div + .input-div {
+        margin-top: 16px;
+    }
+      .flex{
+          /* margin-left:-8px ; */
+        display: flex;
+        flex-wrap: wrap;
+        /* justify-content: space-between; */
+        align-items: center;
+      }
+      .flex + .flex {
+          margin-top: 1rem;
+      }
+      .container{
+          /* padding: 1rem; */
+      }
+      
+      .center-div{
+        margin: 0 auto !important;
+        width: 500px;
+        max-width: 700px;
+      }
+
+      .patient-profile-container{
+          padding: 4em 0;
+        margin: 1rem auto;
+        border-radius: 8px;
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+      }
+      
+      #id_gender {
+        width: auto !important;
+        height: auto !important;
+      }
+      #id_gender .form-control{
+        width: auto !important;
+      }
+      #id_gender .form-control{
+        background-color: red;
+      }
+      textarea{
+        resize: none;
+        width: auto;
+      }
+      .input-div label{
+        margin-top: 1rem;
+        margin-left: 1rem;
+      }
+      .underline-link{
+        text-decoration: underline;
+        color: #4E944F;
+        /* font-size: large; */
+        font-weight: bold;
+      }
+      #id_gender{
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+      }
+      
+      .previous-appointment-link-div a{
+          color: green;
+          /* text-decoration: underline; */
+          padding: 0.5rem 1rem;
+          border-radius: 4px;
+          border: 1px solid green;
+
+      }
+        .previous-appointment-link-div a:hover{
+            color: white;
+            background-color: green;
+
+        }
+        .welcome-title-p {
+            font-size: 2rem;}
+            .button{
+          background-color: #1da1f2;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 1rem 6rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+      }
+      .button:hover{
+          background-color: #325c76;
+            color: white;
+      }
+</style>
+{% endblock %}
+{% block content %}
+<div class="container patient-profile-container">
+    <div class="row center-div">
+      
+        <form id="" role="form" method="post">
+            {% csrf_token %} 
+            <!-- SECTION TITLE -->
+            <div class="section-title wow fadeInUp" data-wow-delay="0.4s">
+                 <h2>Enter your details</h2>
+                 {% if response_messages.existing_patient %}
+                 <p class="text-bold welcome-title-p">
+                    Welcome back <strong>{{ response_messages.patient_profile_data.first_name }}! </strong>
+                    </p>
+                    <p>
+                      It seems you previously had appointment with us. Feel free to check your previous appointments from here 
+                      <div class="previous-appointment-link-div">
+                        <a href="{% url 'patient:appointment-history' %}" class="underline-link">Prevoius Appointments</a>
+                      </div>
+                       
+                    </p>
+                    {% else %}
+                     <p>
+                      It looks like you are a new patient. Please fill in the details below to book an appointment. 
+                     </p>
+                      <p>
+                        It is important to us that you provide accurate information.
+                      </p>
+                    {% endif %}
+                 </p>
+                 
+            </div>
+            <hr>
+            <div class="wow fadeInUp" data-wow-delay="0.8s">
+              <p>
+                Please check your details before submitting and make sure you have filled all the required fields. Update your details if you wish.
+              </p>
+                 <div class="row flex">
+                   
+                    <div class="col-md-6 col-sm-6 input-div">
+                      
+                        {{ patient_profile_form }}
+                        <hr>
+                        <p>Please tell primary reason why you want to consult the doctor </p>
+                        {{ patient_message_form }}
+                   </div>      
+                 </div>           
+                <div class="row flex">
+                    <div class="col-md-6 col-sm-6 input-div">
+                        <input class="button" type="submit" value="Book appointment" />
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

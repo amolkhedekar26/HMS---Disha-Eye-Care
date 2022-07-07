@@ -1,0 +1,169 @@
+{% extends "base/client/base.html" %}
+{% load static %} 
+{% load widget_tweaks %}
+{% block head %}
+<style>
+    .input-div{
+        width: fit-content;
+    }
+    .input-div + .input-div {
+        margin-top: 16px;
+    }
+      .flex{
+          /* margin-left:-8px ; */
+        display: flex;
+        flex-wrap: wrap;
+        /* justify-content: space-between; */
+        align-items: center;
+      }
+      .flex + .flex {
+          margin-top: 1rem;
+      }
+      .container{
+          /* padding: 1rem; */
+      }
+      
+      .center-div{
+        margin: 0 auto !important;
+        width: 500px;
+        max-width: 700px;
+        padding: 2rem 0;
+      }
+
+      .verify-otp-container{
+        margin: 1rem auto;
+        border-radius: 8px;
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+      }
+      .errorlist{
+          list-style-type: none;
+          margin: 0;
+          padding: 0;
+      }
+      .errorlist li{
+        color:white;
+        background-color: rgb(235, 119, 119);
+        padding: 0.5em 1em;
+        border-radius: 4px;
+        margin-bottom: 0.5rem;
+        margin-top: 0.5rem;
+        font-size: 1.5rem;
+        font-weight: 500;
+        text-align: center;
+      }
+      .mt-4{
+        margin-top: 1rem;
+      }
+      .messages {
+        list-style-type: none;
+          margin: 0;
+          padding: 0;
+      }
+      .messages .success{
+        color: white;
+        background-color: rgb(68, 191, 68);
+        padding: 0.5em 1em;
+        border-radius: 4px;
+        /* margin-bottom: 0.5rem;
+        margin-top: 0.5rem; */
+        font-size: 1.5rem;
+        font-weight: 500;
+        /* text-align: center; */
+      }
+      .messages .error{
+        color: white;
+        background-color: rgb(235, 119, 119);
+        padding: 0.5em 1em;
+        border-radius: 4px;
+        font-size: 1.5rem;
+        font-weight: 500;}
+        .button{
+          background-color: #1da1f2;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 1rem 6rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+      }
+      .button:hover{
+          background-color: #325c76;
+            color: white;
+      }
+      .mt-4{
+        margin-top: 1rem;
+      }
+      .mt-8{
+        margin-top: 2rem;
+      }
+</style>
+{% endblock %}
+{% block content %}
+<div class="container verify-otp-container">
+    <div class="row center-div">
+        <ul class="messages wow fadeInUp">
+            {% for message in messages %}
+            <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>
+                {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+                {{ message }}
+                {% endif %}
+                {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                {{ message }}
+                {% endif %}
+            </li>
+            {% endfor %}
+        </ul>
+    {% if verify_otp_form.errors %}
+        {% for field in verify_otp_form %}
+            {% for error in field.errors %}
+                <div class="alert alert-danger">
+                    <strong>{{ error|escape }}</strong>
+                </div>
+            {% endfor %}
+        {% endfor %}
+
+    {% for error in verify_otp_form.non_field_errors %}
+        <div class="alert alert-danger">
+            <strong>{{ error|escape }}</strong>
+        </div>
+    {% endfor %}
+
+    {% endif %}
+        <form id="" role="form" method="post">
+            {% csrf_token %} 
+            <!-- SECTION TITLE -->
+            <div class="section-title wow fadeInUp" data-wow-delay="0.4s">
+                 <h2>Enter OTP sent to you</h2>
+            </div>
+
+            <div class="wow fadeInUp" data-wow-delay="0.8s">
+                  <div class="row flex">
+                    
+                    <div class="col-md-6 col-sm-6 input-div">
+                        <label for="">Your Phone Number : </label>
+                        {{ request.session.phone_no }}
+                  </div>      
+                </div> 
+                 <div class="row flex">
+                    <div class="col-md-6 col-sm-6 input-div">
+                        {{ verify_otp_form }}
+                   </div>      
+                 </div>           
+                <div class="row flex">
+                    <div class="col-md-6 col-sm-6 input-div">
+                        <input class="button" type="submit" value="Verify OTP" />
+                    </div>
+                </div>
+            </div>
+        </form>
+        <form action="{% url 'patient:resend-otp' %}" method="post" class="mt-4">
+            {% csrf_token %}
+            <input type="hidden" name="input_phone_no" value="{{ request.session.phone_no }}" />
+            <label for="" class="mt-8">Did not recieved OTP yet ?</label>
+            <p>
+            <input type="submit" class="btn btn-success mt-8" value="Resend OTP">
+          </p>
+        </form>
+    </div>
+</div>
+{% endblock %}

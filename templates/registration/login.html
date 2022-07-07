@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+{% load widget_tweaks %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600');
+
+        body{
+            font-family: 'Poppins', sans-serif !important;
+        }
+        .login-container {
+            /* margin-top: 10%;
+            margin-bottom: 10%; */
+            min-height: 100vh;
+            padding: 7%;
+            /* padding: 7rem; */
+            
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center; 
+            background-color: #000000;
+background-image: linear-gradient(147deg, #000000 0%, #2c3e50 74%); 
+            
+        }
+        .row{
+            background-color: #f9f9f9;
+            width: min(90%,75%);
+    min-height: 70vh;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;  
+        }
+        .form-col{
+            /* width: 100%; */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .form-group{
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- <div class="container h-75">
+        <div class="row mt-8">
+            <div class="col" style="background-image: url(../../static/img/clinic/appointment-image.jpg);background-size: cover;background-repeat: no-repeat;">
+                
+            </div>
+            <div class="col">
+                <form method="post">
+                    {% csrf_token %}
+                    <div>
+                        {% render_field form.username class="form-control" placeholder="Email" %}
+                    </div>
+                    <div>
+                        {% render_field form.password class="form-control" placeholder="********" %}
+                    </div>
+                    <div>
+                        <input type="submit" value="Login Here" class="btn btn-primary px-8">
+                    </div>
+                  </form>
+            </div>
+        </div>
+    </div>
+     -->
+    
+    <div class="login-container ">
+        <div class="row border border-1 rounded">
+            <div class="col-md-6 img-col" style="background-image: url('https://wallpapercave.com/wp/wp2469685.jpg');background-size: cover;background-repeat: no-repeat;"></div>
+            <div class="col-md-6 form-col">
+                <h2>Staff Login</h2>
+                <form class="mt-4" method="post">
+                    {% csrf_token %}
+                    <div class="mt-4">
+                        <label for="">Email</label>
+                        {% render_field form.username class="form-control mt-2" placeholder="sample@gmail.com" %}
+                    </div>
+                    <div class="mt-4">
+                        <label for="">Password</label>
+                        {% render_field form.password class="form-control mt-2" placeholder="********" %}
+                    </div>
+                    <div class="mt-4">
+                        <input type="submit" value="Login Here" class="btn btn-primary px-8 form-control">
+                    </div>
+                  </form>
+            </div>
+        </div>
+    </div> 
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>
+</html>

@@ -1,0 +1,406 @@
+{% extends "base/receptionist/base.html" %}
+{% load static %} 
+{% load widget_tweaks %}
+
+ {% block head %}
+ <title>Enter patient details</title>
+ <style>
+   .radio-day {
+        /* margin:8px; */
+        width: fit-content;
+        /* height: 40px; */
+        position: relative;
+        
+      }
+
+      .radio-day label,
+      .radio-day input {
+        display: block;
+        border: 1px solid #ccc;
+        /* padding:0 1em 1em 1em !important; */
+        /* position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0; */
+      }
+
+      .radio-day input[type="radio"] {
+        opacity: 0.011;
+        z-index: 100;
+      }
+
+      .radio-day input[type="radio"]:checked + label {
+        background: #4E944F;
+        color: white;
+        border-radius: 4px;
+        /* padding:1em 1em 1em 1em; */
+        font-weight: bold;
+      }
+      .radio-day input[type="radio"]:checked + label p{
+        font-weight: bold;
+      }
+      /* .radio-day input[type="radio"]:checked + label::after {
+        display: inline-block;
+        content: "👍";
+        font-weight: bold;
+        font-size: 1.2rem;
+        padding: 0.3rem 0.5rem;
+        border-radius: 4px;
+        width: auto;
+        color: green;
+        background-color: rgb(255 255 255);
+      } */
+
+      .radio-day label {
+        cursor: pointer;
+        z-index: 90;
+        /* line-height: 1.8em; */
+        padding: 0.1em 1em;
+        width: fit-content;
+        /* border: 1px solid #ccc; */
+      }
+      .radio-day label p{
+        /* font-weight: bold; */
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+      }
+      .half-time-badge p{
+        width: fit-content;
+        background-color: #4e8c94;
+        color: white;
+        border-radius: 0 48px 48px 0;
+        padding: 0.5rem 2rem;
+        margin-top: 1rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 1.2rem;
+        font-weight: bold;
+      }
+      .create-new-appointment-container{
+        /* margin-top: 1rem; */
+        max-width: min(90%,90%);
+        margin: 0 auto;
+      }
+      .table{
+        margin-top: 2rem;
+      }
+      th,td{
+        padding: 1rem !important;
+        text-align: center;
+        vertical-align: middle;
+  
+      }
+      /* .bx{
+        font-size: 1.2rem;
+      } */
+      .pagination{
+          display: flex;
+          flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+      }
+      .pagination li{
+        display: inline-block;
+        margin: 0.5rem;
+        padding:0.5rem 1rem;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+      }
+      .pagination li:hover{
+        background-color: #ccc;
+      }
+      .pagination .active{
+        background-color: #4E944F;
+        color: white;
+      }
+      .list-container{
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .radio-doctor {
+        /* margin:8px; */
+        width: fit-content;
+        /* height: 40px; */
+        position: relative;
+        
+      }
+
+      .radio-doctor label,
+      .radio-doctor input {
+        display: block;
+        border: 1px solid #ccc;
+        /* padding:0 1em 1em 1em !important; */
+        /* position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0; */
+      }
+
+      .radio-doctor input[type="radio"] {
+        opacity: 0.011;
+        z-index: 100;
+      }
+
+      .radio-doctor input[type="radio"]:checked + label {
+        background: #4E944F;
+        color: white;
+        border-radius: 4px;
+        /* padding:1em 1em 1em 1em; */
+        font-weight: bold;
+      }
+      .radio-doctor input[type="radio"]:checked + label p{
+        font-weight: bold;
+      }
+      /* .radio-doctor input[type="radio"]:checked + label::after {
+        display: inline-block;
+        content: "👍";
+        font-weight: bold;
+        font-size: 1.2rem;
+        padding: 0.3rem 0.5rem;
+        border-radius: 4px;
+        width: auto;
+        color: green;
+        background-color: rgb(255 255 255);
+      } */
+
+      .radio-doctor label {
+        cursor: pointer;
+        z-index: 90;
+        /* line-height: 1.8em; */
+        padding: 0.1em 1em;
+        width: fit-content;
+        /* border: 1px solid #ccc; */
+      }
+      .radio-doctor label p{
+        /* font-weight: bold; */
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+      }
+
+      .radio-doctor label p{
+        /* font-weight: bold; */
+        margin-top: 2rem;
+      }
+      .radio-doctor label h5{
+        font-weight: bold;
+        font-size: 1.2rem;
+      }
+      .radio-doctor-profile-image{
+        /* width: 50px;
+        height: 40px;
+        border-radius: 50%; */
+        /* margin-right: 8px; */
+        width: 150px;
+    border-radius: 0.5rem;
+    margin-top: 1rem;
+      }
+      .list-container .btn-primary{
+        height: max-content;
+      }
+      .list-container form{
+        flex-basis: 60%;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+      }
+      .daily-booking-slot-not-available{
+        background-color: #ffc10768;
+        padding: 0.5em;
+        border-radius: 4px;
+      }
+        /* .appointment-confirmed{
+            background-color: #2195f35e;
+            color: whitesmoke;
+            padding: 0.5em;
+            border-radius: 8px;
+        } */
+        .daily-booking-slot-booked{
+            background-color: #FF6363;
+            color: whitesmoke;
+            padding: 0.5em;
+            border-radius: 4px;
+        }
+        .daily-booking-slot-available{
+            background-color: #019267;
+            /* color: black; */
+            padding: 0.5em;
+            border-radius: 4px;
+        }
+        .radio-next-working-days {
+        /* margin:8px; */
+        width: fit-content;
+        /* height: 40px; */
+        position: relative;
+        
+      }
+
+      .radio-next-working-days label,
+      .radio-next-working-days input {
+        display: block;
+        border: 1px solid #ccc;
+        /* padding:0 1em 1em 1em !important; */
+        /* position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0; */
+      }
+
+      .radio-next-working-days input[type="radio"] {
+        opacity: 0.011;
+        z-index: 100;
+      }
+
+      .radio-next-working-days input[type="radio"]:checked + label {
+        background: #4E944F;
+        color: white;
+        border-radius: 4px;
+        /* padding:1em 1em 1em 1em; */
+        font-weight: bold;
+      }
+      .radio-next-working-days input[type="radio"]:checked + label p{
+        font-weight: bold;
+      }
+      /* .radio-next-working-days input[type="radio"]:checked + label::after {
+        display: inline-block;
+        content: "👍";
+        font-weight: bold;
+        font-size: 1.2rem;
+        padding: 0.3rem 0.5rem;
+        border-radius: 4px;
+        width: auto;
+        color: green;
+        background-color: rgb(255 255 255);
+      } */
+
+      .radio-next-working-days label {
+        cursor: pointer;
+        z-index: 90;
+        /* line-height: 1.8em; */
+        padding: 0.1em 1em;
+        width: fit-content;
+        /* border: 1px solid #ccc; */
+      }
+      .radio-next-working-days label p{
+        /* font-weight: bold; */
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+      }
+      .patient-phone-no-col label , .patient-profile-col label{
+        /* font-weight: bold; */
+        margin-top: 1rem;
+    }
+    .patient-phone-no-col input,textarea , .patient-profile-col input,textarea {
+        /* font-weight: bold; */
+        margin-top: 0.5rem;
+    }
+    .patient-phone-no-col h5 , .patient-profile-col h5{
+        font-weight: bold;
+        font-size: 1.2rem;
+        background-color: #accdde;
+        width: fit-content;
+        padding: 0.3em 1em;
+        border-radius: 0 8px 0 8px;
+    }
+    #enter-patient-details-form{
+        display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    }
+ </style>
+
+ {% endblock %}
+
+ {% block sidebar %}
+   {% with page_title="Enter patient details" %}
+      <p class="hide">{{ block.super }}</p>
+    {% endwith %}
+ {% endblock %}
+ 
+ {% block content %}
+ <div class="create-new-appointment-container">
+  {% if messages %}
+  {% for message in messages %}
+      {% if message.tags == 'success'%}
+          <!-- <script>Toastify({
+              text: "{{ message }}",
+              className: "info",
+              style: {
+                background: "linear-gradient(to right, #00b09b, #96c93d)",
+              }
+            }).showToast();</script> -->
+            <div class="alert alert-success" role="alert">
+              {{ message }}
+              <script>
+                 
+                 setTimeout(function(){    
+                  document.querySelector('.alert').style.opacity = 0; 
+                  document.querySelector('.alert').style.display = 'none';
+                 }, 3000);
+              </script>
+            </div>
+      {% endif %}
+  {% endfor %}
+{% endif %}
+
+ <form id="enter-patient-details-form" class="" method="post">
+     {% csrf_token %}
+  <!-- <div class="mb-3">
+    <label for="input-day" class="form-label">Select Day</label>
+    <div class="row">
+      {% for choice in get_time_slots_form.date.field.choices %}
+    <div class="radio-day">
+        <input
+        type="radio"
+        id="id_radio_time_slot_{{ forloop.counter }}"
+        name="days"
+        value="{{ choice.0 }}"
+        required
+        {% if choice.0 == get_time_slots_form.days.field.initial %}
+          checked
+        {% endif %}
+        />
+        <label class="btn btn-default" for="id_radio_time_slot_{{ forloop.counter }}">
+            <p>
+                {{ choice.1 }}
+            </p>
+        </label>
+        </div>
+  {% endfor %}
+  </div>
+  </div> -->
+  <!-- <div class="col-md-4 mb-3">
+    <label for="input-day" class="form-label">Select next working days</label>
+  {% render_field daily_slot_schedule_form.date class="form-control mt-3"  %}
+  </div> -->
+    
+    <div class="col-md-6 mb-3 patient-phone-no-col border p-2 rounded">
+        
+        <p>Selected Date => <strong>{{ request.session.selected_date }}</strong></p>
+        
+        <p>Selected Patient => <strong>{{ selected_patient.patientprofile.first_name }} {{ selected_patient.patientprofile.last_name }}</strong> </p>
+
+        <h5 class="mt-4">Message from patient</h5>
+        {{ patient_message_form }}
+    </div>
+    <!-- <div class="col-md-6 mb-3 patient-profile-col border p-2 rounded">
+        <h5>Profile Details</h5>
+        {{ patient_profile_form }}
+    </div> -->
+  <div class="">
+    <input type="submit" class="btn btn-primary" style="width: fit-content;" value="Create appointment"/>
+     
+  </div>
+</form>
+</div>
+  {% endblock %}
+  
+  {% block script %}
+  
+  {% endblock %}

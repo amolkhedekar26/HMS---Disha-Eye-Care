@@ -1,0 +1,420 @@
+{% extends "base/receptionist/base.html" %}
+{% load static %} 
+{% load widget_tweaks %} 
+
+ {% block head %}
+ <title>Doctor Details</title>
+<style>
+    .doctor-details-container{
+        max-width: min(90%,75%);
+        margin: 2rem auto;
+      }
+      .doctor_profile_image,.doctor_certificate_image{
+        object-fit: cover;
+        margin: 0 auto;
+        display: block;
+        margin-bottom: 1rem;
+            /* width: auto; */
+    border-radius: 0.5rem;
+      }
+      .form-section{
+        box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+      }
+      .form-section h2{
+        width: fit-content;
+    background-color: mistyrose;
+    padding: 0.5em;
+    border-radius: 0 8px 0 8px;
+      }
+      .form-control{
+          background-color: beige;
+      }
+      .card-body h6{
+          margin-top: 1rem;
+      }
+      .row input, .row textarea{
+          margin-top: 0.5rem;
+      }
+      .profile-col,.certificate-col{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .form-section label{
+          font-weight: bold;
+      }
+</style>
+ {% endblock %}
+
+ {% block sidebar %}
+   {% with page_title="Doctor Details" %}
+      <p class="hide">{{ block.super }}</p>
+    {% endwith %}
+ {% endblock %}
+ 
+ {% block content %}
+ <div class="doctor-details-container">
+    {% if messages %}
+    {% for message in messages %}
+        {% if message.tags == 'success'%}
+              <div class="alert alert-success" role="alert">
+                {{ message }}
+                <script>
+                   setTimeout(function(){    
+                    document.querySelector('.alert').style.opacity = 0; 
+                    document.querySelector('.alert').style.display = 'none';
+                   }, 3000);
+                </script>
+              </div>
+        {% endif %}
+    {% endfor %}
+{% endif %}
+    
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="row">
+            <div class="row">
+                <div class="form-section rounded  mb-4 p-4">
+                    <h2 class="h5 mb-4">Personal information</h2>
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <div>
+                                <label for="first_name">First Name</label>
+                                <input name="first_name" class="form-control" id="first_name" type="text"
+                                       placeholder="Enter your first name" value="{{ doctor.first_name }}" disabled>
+                                    
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div>
+                                <label for="middle_name">Middle Name</label>
+                                <input name="middle_name" class="form-control" id="middle_name" type="text"
+                                       placeholder="Middle name" value="{{ doctor.middle_name }}" disabled>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div>
+                                <label for="last_name">Last Name</label>
+                                <input name="last_name" class="form-control" id="last_name" type="text"
+                                       placeholder="Also your last name" value="{{ doctor.last_name }}" disabled>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="row align-items-center">
+                        <div class="col-md-6 mb-3">
+                            <label for="birthday">Birthday</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><span class="far fa-calendar-alt"></span></span>
+                                <input name="birthday" data-datepicker="" class="form-control" id="birthday"
+                                       type="text" placeholder="dd/mm/yyyy" value="{{ profile.birthday|date:'m/d/Y'|default:'' }}" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="gender">Gender</label>
+                            <select name="gender" class="form-select mb-0" id="gender"
+                                    aria-label="Gender select example">
+                                <option selected>Gender</option>
+                                {% for key, value in profile.GENDER_CHOICES %}
+                                    <option value="{{ key }}"
+                                            {% if profile.gender == key %}selected{% endif %}>{{ value }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div> -->
+                    
+                    <!-- <div class="row">
+                        <div class="col-sm-4 mb-3">
+                            <div class="form-group">
+                                <label for="city">City</label>
+                                <input name="city" class="form-control" id="city" type="text" placeholder="City"
+                                       value="{{ profile.city|default:'' }}" required>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="zip">ZIP</label>
+                                <input name="zip" class="form-control" id="zip" type="tel" placeholder="ZIP"
+                                       value="{{ profile.zip|default:'' }}" required>
+                            </div>
+                        </div>
+                    </div> -->
+                    
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-section rounded mb-4 p-4">
+                    <h2 class="h5">Contact Information</h2>
+            <div class="row mt-4">
+                
+                    <div class="col-md-4 mb-3">
+                        <!-- <div class="col-md-6 mb-3">
+                            
+                        </div> -->
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input name="email" class="form-control" id="email" type="email"
+                                   placeholder="name@company.com" value="{{ doctor.user.email }}" disabled>
+                        </div>
+                        <!-- <div class="col-md-6 mb-3">
+                            
+                        </div> -->
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="form-group">
+                            <label for="phone_no">Phone</label>
+                            <input name="phone_no" name="phone_no" class="form-control" id="phone_no" type="text"
+                                   placeholder="+12-345 678 910" value="{{ doctor.phone_no }}" disabled>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="form-group">
+                            <label for="address">Address</label>
+                            <!-- <input name="address" class="form-control" id="address" type="text"
+                                   placeholder="Enter your home address" value="{{ doctor.doctor.address|default:'' }}" required> -->
+                            <textarea name="address" class="form-control" id="address"
+                                      placeholder="Enter your home address" disabled>{{ doctor.address|default:'' }}</textarea>
+                        </div>
+                    </div>
+                        
+                        <!-- <div class="col-sm-3 mb-3">
+                            <div class="form-group">
+                                <label for="number">Number</label>
+                                <input name="number" class="form-control" id="number" type="number"
+                                       placeholder="No." value="{{ profile.number|default:'' }}" required>
+                            </div>
+                        </div> -->
+            </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-section rounded  mb-4 p-4">
+                    <h2 class="h5 mb-4">Profession information</h2>
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <div>
+                                <label for="qualification">Qualification</label>
+                                <input name="qualification" class="form-control" id="qualification" type="text"
+                                       placeholder="Enter your qualification" value="{{ doctor.qualification }}" disabled>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div>
+                                <label for="specialization">Specialization</label>
+                                <input name="specialization" class="form-control" id="specialization" type="text"
+                                       placeholder="Specialization" value="{{ doctor.specialization }}" disabled>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div>
+                                <label for="experience">Experience ( Years  )</label>
+                                <input name="experience" class="form-control" id="experience" type="text"
+                                       placeholder="Experience" value="{{ doctor.experience }}" disabled>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="row align-items-center">
+                        <div class="col-md-6 mb-3">
+                            <label for="birthday">Birthday</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><span class="far fa-calendar-alt"></span></span>
+                                <input name="birthday" data-datepicker="" class="form-control" id="birthday"
+                                       type="text" placeholder="dd/mm/yyyy" value="{{ profile.birthday|date:'m/d/Y'|default:'' }}" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="gender">Gender</label>
+                            <select name="gender" class="form-select mb-0" id="gender"
+                                    aria-label="Gender select example">
+                                <option selected>Gender</option>
+                                {% for key, value in profile.GENDER_CHOICES %}
+                                    <option value="{{ key }}"
+                                            {% if profile.gender == key %}selected{% endif %}>{{ value }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div> -->
+                    
+                    <!-- <div class="row">
+                        <div class="col-sm-4 mb-3">
+                            <div class="form-group">
+                                <label for="city">City</label>
+                                <input name="city" class="form-control" id="city" type="text" placeholder="City"
+                                       value="{{ profile.city|default:'' }}" required>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="zip">ZIP</label>
+                                <input name="zip" class="form-control" id="zip" type="tel" placeholder="ZIP"
+                                       value="{{ profile.zip|default:'' }}" required>
+                            </div>
+                        </div>
+                    </div> -->
+                    
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-section rounded  mb-4 p-4">
+                    <h2 class="h5 mb-4">Clinic information</h2>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <div>
+                                <label for="fees">Fees ( ₹ )</label>
+                                <input name="fees" class="form-control" id="fees" type="text"
+                                       placeholder="Enter your fess" value="{{ doctor.fees }}" disabled>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div>
+                                <label for="timings">Timing</label>
+                                <input name="timings" class="form-control" id="timings" type="text"
+                                       placeholder="Timing" value="{{ doctor.timings }}" disabled>
+                            </div>
+                        </div>
+                        <!-- <div class="col-md-4 mb-3">
+                            <div>
+                                <label for="experience">Experience ( Years  )</label>
+                                <input name="experience" class="form-control" id="experience" type="text"
+                                       placeholder="Experience" value="{{ doctor_profile_form.experience.value }}"
+                                       required>
+                            </div>
+                        </div> -->
+                    </div>
+                    <!-- <div class="row align-items-center">
+                        <div class="col-md-6 mb-3">
+                            <label for="birthday">Birthday</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><span class="far fa-calendar-alt"></span></span>
+                                <input name="birthday" data-datepicker="" class="form-control" id="birthday"
+                                       type="text" placeholder="dd/mm/yyyy" value="{{ profile.birthday|date:'m/d/Y'|default:'' }}" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="gender">Gender</label>
+                            <select name="gender" class="form-select mb-0" id="gender"
+                                    aria-label="Gender select example">
+                                <option selected>Gender</option>
+                                {% for key, value in profile.GENDER_CHOICES %}
+                                    <option value="{{ key }}"
+                                            {% if profile.gender == key %}selected{% endif %}>{{ value }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div> -->
+                    
+                    <!-- <div class="row">
+                        <div class="col-sm-4 mb-3">
+                            <div class="form-group">
+                                <label for="city">City</label>
+                                <input name="city" class="form-control" id="city" type="text" placeholder="City"
+                                       value="{{ profile.city|default:'' }}" required>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="zip">ZIP</label>
+                                <input name="zip" class="form-control" id="zip" type="tel" placeholder="ZIP"
+                                       value="{{ profile.zip|default:'' }}" required>
+                            </div>
+                        </div>
+                    </div> -->
+                    
+                </div>
+            </div>
+            <div class="row">
+                   
+                <div class="form-section rounded  mb-4 p-4">
+                    <div class="row">
+                        <div class="col-md-6 mb-3 profile-col">
+                            <h2 class="h5">Profile Image</h2>
+                            <div class="card border-0 text-center p-0">
+                                
+                                <div class="profile-cover rounded-top"
+                                     data-background="{{ doctor.doctor.profile_image.url }}"></div>
+                                <div class="card-body">
+                                    <img src="{{ doctor.profile_image.url }}"
+                                         class="doctor_profile_image mx-auto mt-n7 mb-4"
+                                         
+                                         id="doctor_profile_image" 
+                                         alt="{{ doctor.first_name }} {{ doctor.last_name }}" width="200" height="200">
+                                         <a href="{{ doctor.profile_image.url }}" 
+                                         class="btn btn-outline-secondary">
+                                           View Image   
+                                         </a>
+                                    <!-- <h4 class="h3">{{ profile.user.username }}</h4>
+                                    <h4 class="font-weight-normal">{{ profile.user.get_full_name }}</h4>
+                                    <h5 class="font-weight-normal">
+                                        {{ request.user.email }}
+                                    </h5>
+                                    <p class="text-gray mb-4">{{ profile.address|default:'' }}</p>
+                                    <a class="btn btn-sm btn-primary mr-2" href="#"><span
+                                            class="fas fa-user-plus mr-1"></span> Connect</a>
+                                    <a class="btn btn-sm btn-secondary" href="#">Send Message</a> -->
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="col-12">
+                            <div class="card card-body bg-white border-light shadow-sm mb-4">
+                                <h2 class="h5 mb-4">Select profile photo</h2>
+                                <div class="d-xl-flex align-items-center">
+                                    <div class="file-field">
+                                        <div class="d-flex justify-content-xl-center ml-xl-3">
+                                            <div class="d-flex">
+                                                <span class="icon icon-md">
+                                                    <span class="fas fa-paperclip mr-3"></span>
+                                                </span>
+                                                <input name="avatar" type="file">
+                                                <div class="d-md-block text-left">
+                                                    <div class="font-weight-normal text-dark mb-1">Choose Image</div>
+                                                    <div class="text-gray small">JPG, GIF or PNG. Max size of 800K</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
+                        <div class="col-md-6 mb-3 certificate-col">
+                            <h2 class="h5">Certificate Image</h2>
+                            <div class="card border-0 text-center p-0">
+                                
+                                <div class="profile-cover rounded-top"
+                                     data-background="{{ doctor.certificate_image.url }}"></div>
+                                <div class="card-body">
+                                    <img src="{{ doctor.certificate_image.url }}"
+                                         class="mx-auto mt-n7 mb-4 doctor_certificate_image"
+                                         id="doctor_certificate_image"
+                                         alt="Certificate image" width="200" height="200">
+                                         <a href="{{ doctor.certificate_image.url }}" class="btn btn-outline-secondary">
+                                            View Image   
+                                          </a>
+                                    <!-- <h4 class="h3">{{ profile.user.username }}</h4>
+                                    <h4 class="font-weight-normal">{{ profile.user.get_full_name }}</h4>
+                                    <h5 class="font-weight-normal">
+                                        {{ request.user.email }}
+                                    </h5>
+                                    <p class="text-gray mb-4">{{ profile.address|default:'' }}</p>
+                                    <a class="btn btn-sm btn-primary mr-2" href="#"><span
+                                            class="fas fa-user-plus mr-1"></span> Connect</a>
+                                    <a class="btn btn-sm btn-secondary" href="#">Send Message</a> -->
+                                
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+        </div>
+            
+    </div>
+        
+    </form>
+        
+</div>
+  {% endblock %}
+  
+  
+  {% block script %}
+  {% endblock %}

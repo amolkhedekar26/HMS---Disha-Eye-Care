@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+{% load widget_tweaks %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Doctor</title>
+</head>
+<body>
+    <form method="post">
+        {% csrf_token %}
+        <div>
+            {% render_field login_form.email class="form-control" placeholder="Email" %}
+        </div>
+        <div>
+            {% render_field login_form.password class="form-control" placeholder="********" %}
+        </div>
+        <div>
+            <input type="submit" value="Login">
+        </div>
+      </form>
+      
+</body>
+</html>

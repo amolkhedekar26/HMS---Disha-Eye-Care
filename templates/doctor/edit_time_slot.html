@@ -1,0 +1,94 @@
+{% extends "base/doctor/base.html" %}
+{% load static %} 
+{% load widget_tweaks %}
+
+ {% block head %}
+ <title>Time Slots</title>
+ <style>
+     .edit-time-slot-container{
+        max-width: min(90%,75%);
+        margin: 0 auto;
+     }
+     .alert{
+         opacity: 1;
+        transition: opacity 0.6s;
+     }
+     .action-div{
+         width: 100%;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        /* margin-top: 1em; */
+     }
+     .action-div a{
+            margin-right: 1em;
+     }
+ </style>
+ {% endblock %}
+
+ {% block sidebar %}
+   {% with page_title="Edit Time Slot" %}
+      <p class="hide">{{ block.super }}</p>
+    {% endwith %}
+ {% endblock %}
+ 
+{% block content %}
+<div class="edit-time-slot-container">
+    {% if messages %}
+    {% for message in messages %}
+        {% if message.tags == 'success'%}
+            <!-- <script>Toastify({
+                text: "{{ message }}",
+                className: "info",
+                style: {
+                  background: "linear-gradient(to right, #00b09b, #96c93d)",
+                }
+              }).showToast();</script> -->
+              <div class="alert alert-success" role="alert">
+                {{ message }}
+                <script>
+                   
+                   setTimeout(function(){    
+                    document.querySelector('.alert').style.opacity = 0; 
+                    document.querySelector('.alert').style.display = 'none';
+                   }, 3000);
+                </script>
+              </div>
+        {% endif %}
+    {% endfor %}
+{% endif %}
+<form id="edit-time-slot-form" method="post">
+    {% csrf_token %}
+    <div class="row justify-content-center">
+        <div class="col">
+            <label for="">
+                <strong>Day</strong>
+            </label>
+            {% render_field edit_time_slot_form.day class="form-control mt-2" %}
+        </div>
+      </div>
+    <div class="row justify-content-center mt-4">
+        <div class="col">
+            <label for="">
+                <strong>Start Time</strong>
+            </label>
+            {% render_field edit_time_slot_form.start_time class="form-control mt-2" %}
+        </div>
+        <div class="col">
+            <label for="">
+                <strong>End Time</strong>
+            </label>
+            {% render_field edit_time_slot_form.end_time class="form-control mt-2" %}
+        </div>
+      </div>
+    <div class="action-div mt-4">
+        <a href="{% url 'doctor:delete-time-slot' time_slot_id %}" class="btn btn-outline-danger">Delete Time Slot</a>
+        <input class="btn btn-primary" type="submit" value="Update Time Slot">
+        
+    </div>
+</div>
+
+{% endblock %}
+  
+  {% block script %}
+  {% endblock %}

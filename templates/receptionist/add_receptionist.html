@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+{% load widget_tweaks %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Receptionist</title>
+</head>
+<body>
+    <h1>Add Receptionist</h1>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div>
+            {% render_field receptionist_user_form.email class="form-control" placeholder="Email" %}
+        </div>
+        <div>
+            {% render_field receptionist_user_form.password class="form-control" placeholder="********" %}
+        </div>
+        <div>
+            {% render_field receptionist_form.first_name class="form-control" placeholder="First Name" %}
+        </div>
+        <div>
+            {% render_field receptionist_form.middle_name class="form-control" placeholder="Middle Name" %}
+        </div>
+        <div>
+            {% render_field receptionist_form.last_name class="form-control" placeholder="Last Name" %}
+        </div>
+        <div>
+            {% render_field receptionist_form.phone_no class="form-control" placeholder="Phone Number" %}
+        </div>
+        <div>
+            {% render_field receptionist_form.address class="form-control" placeholder="Address" %}
+        </div>
+        <div>
+            {% render_field receptionist_form.profile_image class="form-control" placeholder="Profile Image" %}
+        </div>
+        <div>
+            <input type="submit" value="Add Receptionist">
+        </div>
+      </form>
+</body>
+</html>

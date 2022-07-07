@@ -1,0 +1,278 @@
+{% extends "base/doctor/base.html" %}
+{% load static %} 
+{% load widget_tweaks %} 
+ 
+ {% block head %}
+ <title>Patient Details</title>
+<style>
+    .patient-details-container{
+        /* margin-top: 1rem; */
+        max-width: min(90%,75%);
+        margin: 2rem auto;
+      }
+      .form-section{
+        box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+      }
+      .form-section h2{
+        width: fit-content;
+    background-color: mistyrose;
+    padding: 0.5em;
+    border-radius: 0 8px 0 8px;
+      }
+      .form-control{
+          background-color: beige;
+      }
+      .card-body h6{
+          margin-top: 1rem;
+      }
+      .row input, .row textarea{
+          margin-top: 0.5rem;
+      }
+      .form-section label{
+          font-weight: bold;
+      }
+</style>
+ {% endblock %}
+
+ {% block sidebar %}
+   {% with page_title="Patient Details" %}
+      <p class="hide">{{ block.super }}</p>
+    {% endwith %}
+ {% endblock %}
+ 
+ {% block content %}
+ <div class="patient-details-container">
+    <h4>Here are patient details</h4>
+  <!-- Create Rows with two columns -->
+  <!-- <div class="">
+    <div class="row">
+      <div class="col summary-title-col">
+        <span class="bullet"></span>Name </div>
+      <div class="col summary-title-text">{{ patient.patientprofile.first_name }} {{ patient.patientprofile.middle_name }} {{ patient.patientprofile.last_name }}</div>
+      </div>
+    <div class="row">
+      <div class="col summary-title-col"> <span class="bullet"></span>Age </div>
+      <div class="col summary-title-text">     
+        {{ patient.patientprofile.age }} 
+      </div>
+      </div>
+      <div class="row">
+          <div class="col summary-title-col"><span class="bullet"></span>Phone No</div>
+          <div class="col summary-title-text"> {{ patient.phone_no }}</div>
+            
+          </div>
+          <div class="row">
+            <div class="col summary-title-col"><span class="bullet"></span> Email </div>
+            <div class="col summary-title-text">{{ patient.patientprofile.email }}</div>
+            </div>
+      <div class="row">
+          <div class="col summary-title-col"><span class="bullet"></span>Address</div>
+          <div class="col summary-title-text">{{ patient.patientprofile.address }}</div>
+      </div>
+    
+          <div class="row">
+              <div class="col summary-title-col"><span class="bullet"></span> Gender </div>
+              <div class="col summary-title-text">{{ patient.patientprofile.gender }}</div>
+              </div>
+      <div class="row">
+          <div class="col summary-title-col"><span class="bullet"></span> Blood Group </div>
+          <div class="col summary-title-text">{{ patient.patientprofile.blood_group }}</div>
+          </div>
+          
+    
+  </div>       -->
+  <div class="row">
+    <div class="row">
+        <div class="form-section rounded  mb-4 p-4">
+            <h2 class="h5 mb-4">Personal information</h2>
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <div>
+                        <label for="first_name">First Name</label>
+                        <input name="first_name" class="form-control" id="first_name" type="text"
+                               placeholder="Enter your first name" value="{{ patient.patientprofile.first_name }}"
+                               required disabled>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div>
+                        <label for="middle_name">Middle Name</label>
+                        <input name="middle_name" class="form-control" id="middle_name" type="text"
+                               placeholder="Middle name" value="{{ patient.patientprofile.middle_name }}"
+                               required disabled>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div>
+                        <label for="last_name">Last Name</label>
+                        <input name="last_name" class="form-control" id="last_name" type="text"
+                               placeholder="Also your last name" value="{{ patient.patientprofile.last_name }}"
+                               required disabled>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="row align-items-center">
+                <div class="col-md-6 mb-3">
+                    <label for="birthday">Birthday</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><span class="far fa-calendar-alt"></span></span>
+                        <input name="birthday" data-datepicker="" class="form-control" id="birthday"
+                               type="text" placeholder="dd/mm/yyyy" value="{{ profile.birthday|date:'m/d/Y'|default:'' }}" required>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="gender">Gender</label>
+                    <select name="gender" class="form-select mb-0" id="gender"
+                            aria-label="Gender select example">
+                        <option selected>Gender</option>
+                        {% for key, value in profile.GENDER_CHOICES %}
+                            <option value="{{ key }}"
+                                    {% if profile.gender == key %}selected{% endif %}>{{ value }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div> -->
+            
+            <!-- <div class="row">
+                <div class="col-sm-4 mb-3">
+                    <div class="form-group">
+                        <label for="city">City</label>
+                        <input name="city" class="form-control" id="city" type="text" placeholder="City"
+                               value="{{ profile.city|default:'' }}" required>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="zip">ZIP</label>
+                        <input name="zip" class="form-control" id="zip" type="tel" placeholder="ZIP"
+                               value="{{ profile.zip|default:'' }}" required>
+                    </div>
+                </div>
+            </div> -->
+            
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-section rounded mb-4 p-4">
+            <h2 class="h5">Contact Information</h2>
+    <div class=" row mt-4">
+        
+            <div class="col-md-4 mb-3">
+                <!-- <div class="col-md-6 mb-3">
+                    
+                </div> -->
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input name="email" class="form-control" id="email" type="email"
+                           placeholder="name@company.com" value="{{ patient.patientprofile.email }}" readonly disabled>
+                   
+                </div>
+                <!-- <div class="col-md-6 mb-3">
+                    
+                </div> -->
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="form-group">
+                    <label for="phone_no">Phone</label>
+                    <input name="phone_no" name="phone_no" class="form-control" id="phone_no" type="text"
+                           placeholder="+12-345 678 910" value="{{ patient.phone_no }}" required disabled>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="form-group">
+                    <label for="address">Address</label>
+                    <!-- <input name="address" class="form-control" id="address" type="text"
+                           placeholder="Enter your home address" value="{{ doctor.doctor.address|default:'' }}" required> -->
+                    <textarea name="address" class="form-control" id="address"
+                              placeholder="Enter your home address" required disabled>{{ patient.patientprofile.address|default:'' }}</textarea>
+                </div>
+            </div>
+                
+                <!-- <div class="col-sm-3 mb-3">
+                    <div class="form-group">
+                        <label for="number">Number</label>
+                        <input name="number" class="form-control" id="number" type="number"
+                               placeholder="No." value="{{ profile.number|default:'' }}" required>
+                    </div>
+                </div> -->
+    </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-section rounded  mb-4 p-4">
+            <h2 class="h5 mb-4">Medical information</h2>
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <div>
+                        <label for="age">Age</label>
+                        <input name="age" class="form-control" id="age" type="text"
+                               placeholder="Enter your Age" value="{{ patient.patientprofile.age }}"
+                               required disabled>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div>
+                        <label for="gender">Gender</label>
+                        <input name="gender" class="form-control" id="gender" type="text"
+                               placeholder="Gender" value="{{ patient.patientprofile.gender }}"
+                               required disabled>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div>
+                        <label for="blood_group">Blood Group</label>
+                        <input name="blood_group" class="form-control" id="blood_group" type="text"
+                               placeholder="Blood group" value="{{ patient.patientprofile.blood_group }}"
+                               required disabled>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="row align-items-center">
+                <div class="col-md-6 mb-3">
+                    <label for="birthday">Birthday</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><span class="far fa-calendar-alt"></span></span>
+                        <input name="birthday" data-datepicker="" class="form-control" id="birthday"
+                               type="text" placeholder="dd/mm/yyyy" value="{{ profile.birthday|date:'m/d/Y'|default:'' }}" required>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="gender">Gender</label>
+                    <select name="gender" class="form-select mb-0" id="gender"
+                            aria-label="Gender select example">
+                        <option selected>Gender</option>
+                        {% for key, value in profile.GENDER_CHOICES %}
+                            <option value="{{ key }}"
+                                    {% if profile.gender == key %}selected{% endif %}>{{ value }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div> -->
+            
+            <!-- <div class="row">
+                <div class="col-sm-4 mb-3">
+                    <div class="form-group">
+                        <label for="city">City</label>
+                        <input name="city" class="form-control" id="city" type="text" placeholder="City"
+                               value="{{ profile.city|default:'' }}" required>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="zip">ZIP</label>
+                        <input name="zip" class="form-control" id="zip" type="tel" placeholder="ZIP"
+                               value="{{ profile.zip|default:'' }}" required>
+                    </div>
+                </div>
+            </div> -->
+            
+        </div>
+    </div>
+    
+</div>
+</div>
+  {% endblock %}
+  
+  {% block script %}
+  
+  {% endblock %}

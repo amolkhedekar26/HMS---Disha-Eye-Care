@@ -1,0 +1,311 @@
+{% extends "base/receptionist/base.html" %}
+{% load static %} 
+ 
+ {% block head %}
+ <title>Invoice Details</title>
+<style>
+    .invoice-details-container{
+        max-width: 900px !important;
+        margin: 2rem auto;
+      }
+      .table{
+        margin-top: 2rem;
+      }
+      th,td{
+        padding: 1rem !important;
+        vertical-align: middle;
+  
+      }
+   
+      tr{
+          border-radius: 16px !important;
+      }
+     
+        .row{
+           
+            border-radius: 8px;
+            align-items: center;
+        }
+        
+        .invoice-heading p{
+            text-align: left;
+            margin:0 !important
+        }
+        hr{
+            margin: 0 !important;
+        }
+      
+        .col-left p{
+            text-align: left;
+        }
+        .col-right p{
+            text-align: right;
+        }
+        .col-left{
+            text-align: left;
+        }
+        .col-right{
+            text-align: right;
+        }
+        .prescription-table {
+          
+            border-collapse: collapse;
+            width: 100%;
+          
+        }
+        .prescription-table td{
+            text-align: left;
+        }
+        .prescription-table th{
+            text-align: left;
+            width: 20%;
+        }
+</style>
+<style>
+    .invoice-box {
+       
+        padding: 0 !important;
+    }
+
+    .invoice-box table {
+        width: 100%;
+        line-height: inherit;
+        text-align: left;
+        border: 1px solid gainsboro;
+    }
+
+    .invoice-box table td {
+        padding: 5px;
+        vertical-align: top;
+    }
+
+    .invoice-box table tr td:nth-child(2) {
+        text-align: right;
+    }
+
+    .invoice-box table tr.top table td {
+        padding-bottom: 20px;
+    }
+
+    .invoice-box table tr.top table td.title {
+        font-size: 45px;
+        line-height: 45px;
+        color: #333;
+    }
+
+    .invoice-box table tr.information table td {
+        padding-bottom: 40px;
+    }
+
+    .invoice-box table tr.heading td {
+        background: #eee;
+        border-bottom: 1px solid #ddd;
+        font-weight: bold;
+    }
+
+    .invoice-box table tr.details td {
+        padding-bottom: 20px;
+    }
+
+    .invoice-box table tr.item td {
+        border-bottom: 1px solid #eee;
+    }
+
+    
+
+    .invoice-box table tr.total td:nth-child(2) {
+       
+        font-weight: bold;
+    }
+
+    @media only screen and (max-width: 600px) {
+        .invoice-box table tr.top table td {
+            width: 100%;
+            display: block;
+            text-align: center;
+        }
+
+        .invoice-box table tr.information table td {
+            width: 100%;
+            display: block;
+            text-align: center;
+        }
+    }
+
+    /** RTL **/
+    .invoice-box.rtl {
+        direction: rtl;
+        font-family: Tahoma, 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+    }
+
+    .invoice-box.rtl table {
+        text-align: right;
+    }
+
+    .invoice-box.rtl table tr td:nth-child(2) {
+        text-align: left;
+    }
+
+    @media print{
+        @page { margin: 0; }
+  body  { margin: 1.6cm; }
+        .no-print, .no-print *
+    {
+        display: none !important;
+    }
+    }
+</style>
+ {% endblock %}
+
+ {% block sidebar %}
+   {% with page_title="Invoice Details" %}
+      <p class="hide">{{ block.super }}</p>
+    {% endwith %}
+ {% endblock %}
+ 
+ {% block content %}
+ <div class="invoice-details-container">
+   <div class="row">
+       <div class="col">
+           <img src="{% static 'img/clinic/disha_eye_care.svg' %}" alt="Disha Eye Care Clinic" style="width:60%">
+       </div>
+       <div class="col invoice-heading">
+        <h4 class="">
+            <strong>Disha Eye Care Clinic</strong>
+         </h4>
+        <p>
+         36 Pl Kale Guruji Road, Dadar (west)
+     
+         Mumbai, Maharashtra, 400028
+         
+         00222422000
+        </p>
+        <p>Contact No - 987781245</p>
+       </div>
+   </div>
+   <hr>
+   <div class="mt-4">
+       <h4 class="text-center">
+              <strong>Invoice</strong>
+       </h4>
+   </div>
+  <!-- Create Rows with two columns -->
+  <div class="mt-4">
+      <div class="row justify-content-between">
+          <div class="col col-left">
+              <p>
+                  <strong>Invoice No : </strong> {{ invoice.invoice_no }}
+              </p>
+          </div>
+          <div class="col col-right">
+                <p>
+                    <strong>Invoice Date : </strong> {{ invoice.invoice_date }}
+                </p>
+          </div>
+      </div>
+      <div class="row justify-content-between">
+        <div class="col col-left">
+            <p>
+                <strong> Slot Time : </strong> {{ invoice.appointment.daily_slot_booking.doctor_time_slot.time_slot.start_time|time:"h:i A" }} - {{ invoice.appointment.daily_slot_booking.doctor_time_slot.time_slot.end_time|time:"h:i A"}}
+            </p>
+        </div>
+        <div class="col col-right">
+              <!-- <p>
+                  <strong>Invoice Date : </strong> {{ invoice.invoice_date }}
+              </p> -->
+        </div>
+     </div>
+     <div class="row justify-content-between">
+        <div class="col col-left">
+            <p>
+                <strong> Patient Name : </strong> {{ invoice.appointment.patient.patientprofile.first_name }}
+                {{ invoice.appointment.patient.patientprofile.middle_name }}  {{ invoice.appointment.patient.patientprofile.last_name }}
+            </p>
+        </div>
+        <div class="col col-right">
+            <strong> Doctor Name : </strong> {{ invoice.appointment.daily_slot_booking.doctor_time_slot.doctor.doctor.first_name }} {{ invoice.appointment.daily_slot_booking.doctor_time_slot.doctor.doctor.last_name }} 
+        </div>
+     </div>
+     <div class="row justify-content-between">
+        <div class="col col-left">
+            <p>
+                <strong> Patient Phone No : </strong> {{ invoice.appointment.patient.phone_no }}
+            </p>
+        </div>
+        <div class="col col-right">
+            <strong> Doctor Phone No : </strong>  {{ invoice.appointment.daily_slot_booking.doctor_time_slot.doctor.doctor.phone_no }} 
+        </div>
+     </div>
+     <h6 class="mt-4">
+         <strong>
+            Prescription Details :
+         </strong>
+     </h6>
+     <div class="row justify-content-between">
+        
+       <table class="prescription-table">
+           <tr>
+               <th class="prescription-title">Symptoms : </th>
+               <td class="table-active">{{ prescription.symptoms }}</td>
+           </tr>
+           <th>
+            Prescription : 
+           </th>
+           <td class="table-active">
+                {{ prescription.content }}
+           </td>
+       </table>
+       <h6 class="mt-4">
+        <strong>
+           Payment Details :
+        </strong>
+    </h6>
+       <div class="invoice-box">
+        <table cellpadding="0" cellspacing="0">
+            
+            <tr class="heading">
+                
+                <td>Item</td>
+
+                <td>Price (&#8377)</td>
+            </tr>
+
+            <tr class="item">
+                <td>Consultation Fees</td>
+
+                <td>{{ invoice.consultation_fee }}</td>
+            </tr>
+
+            <tr class="item">
+                <td>Medicines Charges</td>
+
+                <td>{{ invoice.medicine_charges }}</td>
+            </tr>
+
+            <tr class="item last">
+                <td>Lab Fees</td>
+
+                <td>{{ invoice.lab_fee }}</td>
+            </tr>
+            <tr class="item last">
+                <td>Other Charges</td>
+
+                <td>{{ invoice.other_charges }}</td>
+            </tr>
+
+            <tr class="total">
+                <td></td>
+
+                <td>Total: {{ invoice.total_amount }}</td>
+            </tr>
+        </table>
+    </div>
+     </div>
+  </div>      
+        
+</div>
+  {% endblock %}
+  
+  {% block script %}
+  
+  {% endblock %}

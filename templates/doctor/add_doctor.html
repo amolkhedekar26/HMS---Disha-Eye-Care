@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+{% load widget_tweaks %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Doctor</title>
+</head>
+<body>
+    Add Doctor
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div>
+            {% render_field doctor_user_form.email class="form-control" placeholder="Email" %}
+        </div>
+        <div>
+            {% render_field doctor_user_form.password class="form-control" placeholder="********" %}
+        </div>
+        <div>
+            {% render_field doctor_form.first_name class="form-control" placeholder="First Name" %}
+        </div>
+        <div>
+            {% render_field doctor_form.middle_name class="form-control" placeholder="Middle Name" %}
+        </div>
+        <div>
+            {% render_field doctor_form.last_name class="form-control" placeholder="Last Name" %}
+        </div>
+        <div>
+            {% render_field doctor_form.phone_no class="form-control" placeholder="Phone Number" %}
+        </div>
+        <div>
+            {% render_field doctor_form.address class="form-control" placeholder="Address" %}
+        </div>
+        <div>
+            {% render_field doctor_form.qualification class="form-control" placeholder="Qualification" %}
+        </div>
+        <div>
+            {% render_field doctor_form.experience class="form-control" placeholder="Experience" %}
+        </div>
+        <div>
+            {% render_field doctor_form.specialization class="form-control" placeholder="Specialization" %}
+        </div>
+        <div>
+            {% render_field doctor_form.fees class="form-control" placeholder="Fees" %}
+        </div>
+        <div>
+            {% render_field doctor_form.timings class="form-control" placeholder="Timings" %}
+        </div>
+        <div>
+            {% render_field doctor_form.profile_image class="form-control" placeholder="Profile Image" %}
+        </div>
+        <div>
+            {% render_field doctor_form.certificate_image class="form-control" placeholder="Certificate Image" %}
+        </div>
+        <div>
+            <input type="submit" value="Add Doctor">
+        </div>
+      </form>
+      
+</body>
+</html>

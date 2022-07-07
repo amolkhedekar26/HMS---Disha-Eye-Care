@@ -1,0 +1,234 @@
+{% extends "base/client/base.html" %}
+{% load static %} 
+{% load widget_tweaks %}
+{% block head %}
+<style>
+    .input-div + .input-div {
+        margin-top: 16px;
+    }
+      .flex{
+          /* margin-left:-8px ; */
+        display: flex;
+        flex-wrap: wrap;
+        /* justify-content: space-between; */
+        align-items: center;
+      }
+      .flex + .flex {
+          margin-top: 1rem;
+      }
+      /* .container{
+          padding: 1rem;
+      } */
+      
+      .center-div{
+        margin: 0 auto !important;
+        /* width: 500px; */
+        /* max-width: 700px; */
+        padding: 1rem 4rem;
+      }
+
+      .appointment-home-container{
+          padding: 1em 0;
+        margin: 1rem auto;
+        border-radius: 8px;
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+      }
+      .appointment-home-container table{
+          width: 100%;
+          background-color: beige;
+    border-radius: 8px;
+      }
+      .appointment-home-container tr{
+        display: flex;
+    justify-content: space-between;
+    /* border-bottom: 1px solid gainsboro; */
+      }
+      .appointment-home-container tr:not(:last-child) {
+    border-bottom: 1px solid gainsboro;
+}
+      .appointment-home-container td{
+        padding: 1rem;
+        flex-basis: 50%;
+      }
+      .summary-title{
+        font-size: 1.5rem;
+        font-weight: bold;
+        /* flex-basis: 50%; */
+        background-color: rgba(220, 220, 220, 0.432);
+        color: black;
+        padding: 1rem;
+        border-radius: 4px;
+      }
+      .summary-title-td,.summary-text-td{
+        flex-basis: 45%;
+      }
+      .summary-title-td{
+        text-align: center;
+      }
+      
+      .summary-arrow-td{
+        flex-basis: 10% !important;
+        padding: 2rem !important;
+        color:grey;
+        font-size: 2rem !important;
+      }
+      .summary-text{
+          font-size: large;
+        /* flex-basis: 50%; */
+        padding: 1rem;
+      }
+      .card{
+          margin-top: 2rem;
+          padding: 1rem;
+          border-radius: 8px;
+          transition: all 0.3s ease;
+      }
+      .card:hover{
+            /* box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px; */
+            transform: translate(0, -5px);
+            box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+      }
+      .step-icon{
+        width: 5vw;
+  height: 5vw;
+  border-radius: 50%;
+  background: #1da1f2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+      }
+      .step-icon .fa {
+        font-size: 3rem;
+    color: white;
+      }
+      .card h2, .card h4{
+          margin: 0 !important;
+      }
+      .card p{
+            margin: 0 !important;
+            margin-top: 0.5rem;
+            font-size: 1.6rem;
+      }
+      .button-div{
+          margin-top:4rem;
+          margin-left: 4rem;
+          margin-bottom: 2rem;
+      }
+      .button{
+          background-color: #1da1f2;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 1rem 6rem;
+            font-size: 2rem;
+            cursor: pointer;
+      }
+      .button:hover{
+          background-color: #325c76;
+            color: white;
+      }
+      .previous-appointment-link-div{
+          /* margin-top:4rem; */
+          margin-left: 1rem;
+          /* margin-bottom: 2rem; */
+      }
+      .previous-appointment-link-div a{
+          color: green;
+          /* text-decoration: underline; */
+          padding: 0.5rem 1rem;
+          border-radius: 4px;
+          border: 1px solid green;
+
+      }
+        .previous-appointment-link-div a:hover{
+            color: white;
+            background-color: green;
+
+        }
+</style>
+{% endblock %}
+{% block content %}
+<div class="container appointment-home-container">
+    <div class="row center-div">
+        <form id="" role="form" method="post">
+            {% csrf_token %} 
+            <!-- SECTION TITLE -->
+            <div class="section-title wow fadeInUp" data-wow-delay="0.4s">
+                 <h2>Welcome</h2>
+                 <p>You are at right place. We have very simple steps to book your appointment with our doctor</p>
+                 
+            </div>
+
+            <div class="wow fadeInUp" data-wow-delay="0.8s">
+        
+                 <div class="row flex">
+                    <div class="col-md-6 col-sm-6 input-div">
+                        <div class="row card">
+                            <div class="col-md-2">
+                                <div class="step-icon"><i class="fa fa-calendar" aria-hidden="true"></i></div>
+                            </div>
+                            <div class="col-md-10">
+                                <h2>01</h2>
+                                <h4>
+                                    <strong>Check Available Slots</strong>
+                                </h4>
+                                <p>
+                                    Select your preferred date and the doctor whom you want to book an appointment. Here you can see the available slots for the selected date and for the selected doctor.
+                                </p>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row card">
+                            <div class="col-md-2">
+                                <div class="step-icon"><i class="fa fa-key" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                            <div class="col-md-10">
+                                <h2>02</h2>
+                                <h4>
+                                    <strong>Verify yourself</strong>
+                                </h4>
+                                <p>
+                                    Please enter your phone number in order to help us verify your identity. You will receive a verification code to your phone number via SMS. Enter the code recieved when asked to proceed.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row card">
+                            <div class="col-md-2">
+                                <div class="step-icon">
+                                    <i class="fa fa-user" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                            <div class="col-md-10">
+                                <h2>03</h2>
+                                <h4>
+                                    <strong>Profile Details</strong>
+                                </h4>
+                                <p>
+                                    Please enter your demographic details.Also provide required medical information . You can edit your profile later if you want.
+                                </p>
+                            </div>
+                        </div>
+                   </div>  
+                    <div class="col-md-6 col-sm-6 input-div">
+                        <img src="{% static 'img/clinic/appointment_book_bg.png' %}" class="img-responsive" alt="appointment booking" />
+                   </div>      
+                   <div class="row button-div">
+                    <a href="{% url 'patient:check-available-slots' %}" class="button">Let's Get Started</a>
+                   </div>
+                 </div>           
+                <div class="row flex previous-appointment-link-div">
+                    <div class="col-md-12 col-sm-12">
+                      <p> If you have made any prevoius appointment with us, feel free to checkout your previous appointments here. </p>
+                         <strong>
+                    <a href="{% url 'patient:appointment-history' %}">
+                        Prevoius Appointments
+                    </a>      
+                    </strong></p>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

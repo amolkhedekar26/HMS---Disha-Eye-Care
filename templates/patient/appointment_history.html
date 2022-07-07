@@ -1,0 +1,137 @@
+{% extends "base/client/base.html" %}
+{% load static %} 
+{% load widget_tweaks %}
+{% block head %}
+<style>
+    .card-div{
+        background-color: beige;
+    /* border: 1px solid gainsboro; */
+    padding: 1em 2em;
+    border-radius: 8px;
+    margin-top: 1rem;
+    margin-left: 1rem;
+    font-size: large;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    }
+    .card-number{
+        padding: 1em;
+    background-color: beige;
+    border-radius: 10% 70% 70% 10%;
+    width: 50px;
+    text-align: center;
+    font-weight: bold;
+    margin-right: 2rem;
+    margin-left: 1rem;
+    }
+    .patient-profile-title{
+        font-size: 1.5rem;
+        font-weight: bold;
+        /* background-color: rgba(220, 220, 220, 0.432); */
+        color: black;
+        padding: 1rem;
+        /* border-radius: 4px; */
+    }
+    .card-div + .card-div {
+        margin-top: 16px;
+    }
+      .flex{
+          /* margin-left:-8px ; */
+        display: flex;
+        flex-wrap: wrap;
+        /* justify-content: space-between; */
+        align-items: center;
+      }
+      .flex + .flex {
+          margin-top: 1rem;
+      }
+      .container{
+          /* padding: 1rem; */
+      }
+      
+      .center-div{
+        margin: 0 auto !important;
+        /* width: 500px; */
+        max-width: 700px;
+      }
+
+      .get-otp-container{
+          padding: 4em 0;
+        margin: 1rem auto;
+        border-radius: 8px;
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+      }
+      .button{
+          background-color: rgb(156, 156, 58);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 1rem 2rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+      }
+      .button:hover{
+          background-color: #325c76;
+            color: white;
+      }
+</style>
+{% endblock %}
+{% block content %}
+<div class="container get-otp-container">
+    <div class="row center-div">
+        <form id="" role="form" method="post">
+            {% csrf_token %} 
+            <!-- SECTION TITLE -->
+            <div class="section-title wow fadeInUp" data-wow-delay="0.4s">
+                <h2>Hello {{ patient_profile_data.first_name }} {{ patient_profile_data.last_name }}</h2> 
+                <h3>Your Prevoius Appointments</h3>
+                 
+            </div>
+
+            <div class="wow fadeInUp" data-wow-delay="0.8s">
+        
+                 <div class="row flex">
+                     {% for appointment in appointments %}
+                     <div class="card-number">
+                        {{ forloop.counter }}
+                   </div>
+                    <div class="col-md-10 col-sm-10 card-div">
+                        <div class="div">
+                            <h4>{{ appointment.daily_slot_booking.date }}</h4>
+                            <p> You had an appointment - 
+                                <p>
+                                    with <strong> Dr. {{ appointment.daily_slot_booking.doctor_time_slot.doctor.doctor.first_name }} {{ appointment.daily_slot_booking.doctor_time_slot.doctor.doctor.last_name }} </strong>
+                                </p>
+                                <!-- <p>on 
+                                    <strong>{{ appointment.daily_slot_booking.date }}</strong>
+                                </p> -->
+                                <p>
+                                    at <strong>
+                                        {{ appointment.daily_slot_booking.doctor_time_slot.time_slot.get_time_slot_with_day }} 
+                                    </strong>
+                                </p>
+                                </p>
+                                <!-- {{ appointment.daily_slot_booking.date }}
+                            {{ appointment.daily_slot_booking.doctor_time_slot.time_slot }} -->
+                            </p>
+                            <p>
+                                <!-- {{ appointment.daily_slot_booking.doctor_time_slot.doctor.doctor.first_name }} {{ appointment.daily_slot_booking.doctor_time_slot.doctor.doctor.last_name }} -->
+                            </p>
+                        </div>
+                        <a href="{% url 'patient:appointment-details' appointment.id %}" class="button">
+                                View Details
+                        </a>
+                   </div>
+                   {% endfor %}      
+                 </div>           
+                <!-- <div class="row flex">
+                    <div class="col-md-6 col-sm-6 input-div">
+                        <input class="btn btn-primary" type="submit" value="Get OTP" />
+                    </div>
+                </div> -->
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

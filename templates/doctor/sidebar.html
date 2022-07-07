@@ -1,0 +1,51 @@
+{% load static %}
+<header class="header" id="header">
+  <div class="header-title-flex">
+    <div class="header_toggle"><i class="bx bx-menu" id="header-toggle"></i></div>
+    <h3>{{ page_title }}</h3>
+  </div>
+  <div class="header-profile-flex">
+    <div class="header_img">
+      <img src="{{ request.user.doctor.profile_image.url }}" alt="" />
+    </div>
+    <h5> Hiii {{ request.user.doctor.first_name }}</h5>
+  </div>
+</header>
+<div class="l-navbar" id="nav-bar">
+  <nav class="nav">
+    <div>
+      <a href="#" class="nav_logo">
+        <i class="bx bx-layer nav_logo-icon"></i>
+        <span class="nav_logo-name">Disha Eye Care</span>
+      </a>
+      <div class="nav_list">
+        <a href="{% url 'doctor:home' %}" class="nav_link active">
+          <i class="bx bx-grid-alt nav_icon"></i>
+          <span class="nav_name">Dashboard</span>
+        </a>
+        <a href="{% url 'doctor:time-slots' %}" class="nav_link">
+          <i class='bx bx-time-five'></i>
+          <span class="nav_name">Time Slots</span>
+        </a>
+        <a href="{% url 'doctor:my-appointments' %}" class="nav_link">
+          <i class='bx bx-calendar-event'></i>
+          <span class="nav_name">My Appointments</span>
+        </a>
+        <a href="{% url 'doctor:my-patients' %}" class="nav_link">
+          <i class='bx bx-accessibility'></i>
+          <span class="nav_name">My Patients</span>
+        </a>
+        <a href="{% url 'doctor:doctor-profile' %}" class="nav_link">
+          <i class='bx bx-user'></i>
+          <span class="nav_name">Profile</span>
+        </a>
+        
+      </div>
+    </div>
+    <a href="{% url 'logout' %}" class="nav_link">
+      <i class="bx bx-log-out nav_icon"></i>
+      <span class="nav_name">Logout</span>
+    </a>
+  </nav>
+</div>
+
