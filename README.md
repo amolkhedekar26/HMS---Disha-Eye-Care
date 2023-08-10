@@ -1,9 +1,9 @@
 # HMS---Disha-Eye-Clinic
 Disha Eye Care - This is Hospital Management system built for single clinic that helps clinic staffs for easy and better operations. It is comprised of user roles like patient, receptionist, doctor.
-Web app allows users to book appointment using OTP verification avoiding the need of having account with the system. Patient can see their appointment history as well along with Bill Reciept.
-For Management members like Receptionist, Doctor, Admin - these much are different roles available. These users can login with their email and password to system and they can access their respective Dashboard where they can manage data they are allowed to.
-Backend - Python  Django REST  MySQL
-Frontend - HTML CSS Javascript
+* Web app allows users to book appointment using OTP verification avoiding the need of having account with the system. Patient can see their appointment history as well along with Bill Reciept.
+* For Management members like Receptionist, Doctor, Admin - these much are different roles available. These users can login with their email and password to system and they can access their respective Dashboard where they can manage data they are allowed to.
+*Backend - Python  Django REST  MySQL
+*Frontend - HTML CSS Javascript
 
 ![Screenshot from 2022-05-30 15-18-22](https://user-images.githubusercontent.com/108868936/178294916-f994ab52-1fad-4e92-a011-fa86dddb93e3.png)
 ![Screenshot from 2022-05-30 15-18-46](https://user-images.githubusercontent.com/108868936/178294929-7844a110-cc3f-48fc-b68c-d77354c0a391.png)
